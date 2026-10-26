@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Votre démarrage · Hackathon Champions</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap">
+<style>
+/* Charte du TOM AI4D, comme la page « Préparer votre dry run » : bleu nuit, turquoise, sable, bordeaux, Montserrat. */
+:root{
+  --bg:#020032; --surface:#0B0B48; --surface2:#14145A; --line:#2B2B6B;
+  --ink:#E1EBEB; --muted:#B2B2C8;
+  --teal:#5EBBC6; --teal-t:#0A3550; --teal-b:#14586B;
+  --org:#D6A978;
+  --band:#14145A; --on-accent:#020032;
+  --font:'Montserrat',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
+  --mono:ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{background:var(--bg);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.5;padding:0 max(16px,env(safe-area-inset-left)) 64px}
+h1,h2,h3,p,ul,ol{margin:0}
+a{color:var(--teal)}
+.wrap{max-width:860px;margin:0 auto}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--org)}
+.head{padding:34px 0 20px;display:flex;flex-direction:column;gap:12px}
+.head h1{font-size:clamp(28px,5vw,42px);font-weight:700;line-height:1.15;text-wrap:balance}
+.head .lead{color:var(--muted);font-size:18px;max-width:56ch}
+.prog{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line)}
+.prog .row{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--muted)}
+.prog .bar{flex:1;height:8px;background:var(--surface2);border-radius:4px;overflow:hidden}
+.prog .bar i{display:block;height:100%;width:0;background:var(--teal);transition:width .25s}
+.prog button{background:none;border:0;color:var(--muted);font:inherit;font-size:13px;cursor:pointer;text-decoration:underline}
+.sec{padding-top:28px}
+.sec>h2{font-size:clamp(20px,3vw,26px);font-weight:700;margin-bottom:12px}
+.sec>p.intro{color:var(--muted);margin-bottom:12px}
+.voies{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+.voie{cursor:pointer;text-align:left;font:inherit;color:inherit;display:flex;flex-direction:column;gap:4px;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:14px 16px}
+.voie .n{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--org)}
+.voie b{font-size:20px}
+.voie span.d{font-size:14px;color:var(--muted)}
+.voie[aria-pressed="true"]{border-color:var(--teal);background:var(--teal-t)}
+.voie[aria-pressed="true"] .n::after{content:" · votre squad";color:var(--teal)}
+ol.steps{list-style:none;counter-reset:s;padding:0;display:flex;flex-direction:column;gap:12px}
+ol.steps>li{counter-increment:s;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start}
+ol.steps>li.done{background:var(--teal-t);border-color:var(--teal-b)}
+.ck{width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:transparent;color:var(--bg);font:inherit;font-weight:700;font-size:20px;cursor:pointer;display:grid;place-items:center}
+.ck::before{content:counter(s);color:var(--ink)}
+li.done .ck{background:var(--teal);border-color:var(--teal)}
+li.done .ck::before{content:"✓";color:var(--on-accent)}
+.b{display:flex;flex-direction:column;gap:8px;min-width:0}
+.b h3{font-size:18px;font-weight:700;line-height:1.3}
+.b p{font-size:16px}
+.b p.s{font-size:14.5px;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;background:var(--teal);color:var(--on-accent);font-weight:700;text-decoration:none;border-radius:10px;padding:11px 18px;font-size:16px}
+.btn.off{background:var(--surface2);color:var(--muted);pointer-events:none}
+.code{display:flex;align-items:stretch;border-radius:10px;overflow:hidden;background:var(--band);min-width:0}
+.code pre{margin:0;flex:1;min-width:0;overflow-x:auto;padding:12px 14px;font-family:var(--mono);font-size:14px;line-height:1.55;white-space:pre}
+.code button{cursor:pointer;flex:none;border:0;border-left:1px solid var(--line);background:transparent;color:var(--teal);font:inherit;font-weight:700;font-size:13px;padding:0 14px}
+.mono{font-family:var(--mono)}
+.card{border-radius:14px;padding:14px 18px;border:1px solid var(--teal-b);background:var(--teal-t);margin-top:18px}
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-top:10px}
+details summary{cursor:pointer;font-weight:700}
+details p{margin-top:8px;font-size:15.5px}
+:focus-visible{outline:3px solid var(--org);outline-offset:2px;border-radius:6px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.prog .bar i{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <p class="eyebrow">Hackathon Champions · lundi 26 octobre</p>
+    <h1>Votre démarrage en six étapes</h1>
+    <p class="lead">Une dizaine de minutes, sans rien installer : un navigateur et un compte GitHub suffisent. Cochez au fur et à mesure.</p>
+  </div>
+  <div class="prog" aria-live="polite"><div class="row"><span id="pn">0 sur 6</span><div class="bar"><i id="pb"></i></div><button type="button" id="reset">Tout décocher</button></div></div>
+
+  <section class="sec">
+    <h2>D'abord, votre squad</h2>
+    <p class="intro">Choisissez celle que l'animation vous annonce.</p>
+    <div class="voies" id="voies"></div>
+  </section>
+
+  <section class="sec">
+    <ol class="steps" id="steps">
+      <li data-k="1"><button type="button" class="ck" aria-label="Cocher l'étape 1"></button><div class="b">
+        <h3>Connectez-vous à GitHub dans ce navigateur</h3>
+        <a class="btn" href="https://github.com/login" target="_blank" rel="noopener">Ouvrir GitHub</a>
+      </div></li>
+      <li data-k="2"><button type="button" class="ck" aria-label="Cocher l'étape 2"></button><div class="b">
+        <h3>Ouvrez le Codespace de votre squad</h3>
+        <a class="btn off" id="cs" href="#" target="_blank" rel="noopener">Choisissez d'abord votre squad</a>
+        <p class="s">Cliquez sur <b>Create codespace</b>. Acceptez les fenêtres qui s'ouvrent.</p>
+      </div></li>
+      <li data-k="3"><button type="button" class="ck" aria-label="Cocher l'étape 3"></button><div class="b">
+        <h3>Attendez le message « Welcome to Codespaces! »</h3>
+        <p class="s">Environ 2 minutes, dans le terminal en bas. Ne tapez rien avant.</p>
+      </div></li>
+      <li data-k="4"><button type="button" class="ck" aria-label="Cocher l'étape 4"></button><div class="b">
+        <h3>Connectez Claude avec le compte qu'on vous a remis</h3>
+        <p>Cliquez dans le terminal et tapez :</p>
+        <div class="code"><pre>claude auth login</pre><button type="button" data-copy="claude auth login">Copier</button></div>
+        <p class="s">Ouvrez le lien affiché dans le terminal (Cmd + clic, ou Ctrl + clic sous Windows), connectez-vous, copiez le code obtenu, collez-le dans le terminal, puis Entrée. C'est bon quand il affiche « Login successful ».</p>
+      </div></li>
+      <li data-k="5"><button type="button" class="ck" aria-label="Cocher l'étape 5"></button><div class="b">
+        <h3>Ouvrez Claude et tapez /bienvenue</h3>
+        <p>Dans la <b>barre verticale tout à gauche</b>, cliquez sur l'<b>icône Claude</b> (une étoile), puis sur <b>Nouvelle session</b> (<i>New session</i>). Dans la zone de saisie du panneau qui s'ouvre, tapez :</p>
+        <div class="code"><pre>/bienvenue</pre><button type="button" data-copy="/bienvenue">Copier</button></div>
+        <p class="s">Ignorez le panneau « Créer avec des assistants » qui s'ouvre à droite : c'est Copilot, pas Claude.</p>
+      </div></li>
+      <li data-k="6"><button type="button" class="ck" aria-label="Cocher l'étape 6"></button><div class="b">
+        <h3>Tapez la phrase « À vous », puis /coach</h3>
+        <p class="s">Perdu ? Tapez <b>/coach</b> : il dit quoi faire ensuite.</p>
+        <p class="s"><b>L'écran de votre squad</b> s'ouvre tout seul dans le Codespace : il montre où en est la squad, la prochaine étape et la phrase à taper. Il est trop petit à cet endroit : ouvrez-le dans un onglet à part (onglet <b>Ports</b> en bas, ligne 4000, icône globe).</p>
+      </div></li>
+    </ol>
+  </section>
+
+  <div class="card"><b>Bloqué plus de 2 minutes ?</b> Levez la main : l'animation vient vous aider.</div>
+
+  <section class="sec">
+    <h2>Si quelque chose ne va pas</h2>
+    <details><summary>« claude » : commande introuvable</summary><p>Ouvrez un nouveau terminal (bouton + du terminal) et retapez la commande.</p></details>
+    <details><summary>Claude dit « Not logged in » ou demande de se connecter</summary><p>Le code de la page de connexion n'a pas été collé dans le terminal. Collez-le, puis Entrée. Si la page a expiré : Ctrl + C dans le terminal, puis relancez <span class="mono">claude auth login</span>.</p></details>
+    <details><summary>/bienvenue n'apparaît pas quand je tape /</summary><p>Fermez le panneau Claude et ouvrez une <b>Nouvelle session</b>. Toujours rien : levez la main.</p></details>
+    <details><summary>J'ai fermé l'onglet du Codespace</summary><p>Retrouvez-le sur <a href="https://github.com/codespaces" target="_blank" rel="noopener">github.com/codespaces</a>. Ne recliquez pas le bouton de l'étape 2 : cela en créerait un deuxième.</p></details>
+    <details><summary>Rien ne s'affiche dans le terminal après 10 minutes</summary><p>Vous avez sans doute rouvert un ancien Codespace. Supprimez-le sur <a href="https://github.com/codespaces" target="_blank" rel="noopener">github.com/codespaces</a>, puis recréez-le avec le bouton de l'étape 2.</p></details>
+  </section>
+</div>
+
+<script>
+(function () {
+  var SQUADS = [
+    { id: 'squad-1-offre', n: 1, label: 'Offre', d: "L'API d'éligibilité et de prix" },
+    { id: 'squad-2-prix', n: 2, label: 'Prix', d: 'Plancher, plafond et KPI' },
+    { id: 'squad-3-paiement', n: 3, label: 'Paiement', d: "L'encaissement du supplément" },
+    { id: 'squad-4-experience', n: 4, label: 'Expérience', d: 'La tuile et la carte dans l\'app' }
+  ];
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  var $ = function (id) { return document.getElementById(id); };
+  var squad = (location.hash || '').replace('#', '') || get('dj_squad') || '';
+  if (!SQUADS.some(function (s) { return s.id === squad; })) squad = '';
+
+  function renderSquads() {
+    $('voies').innerHTML = SQUADS.map(function (s) {
+      return '<button type="button" class="voie" data-id="' + s.id + '" aria-pressed="' + (s.id === squad) + '"><span class="n">Squad ' + s.n + '</span><b>' + s.label + '</b><span class="d">' + s.d + '</span></button>';
+    }).join('');
+    Array.prototype.forEach.call(document.querySelectorAll('.voie'), function (b) {
+      b.addEventListener('click', function () { squad = b.dataset.id; set('dj_squad', squad); try { history.replaceState(null, '', '#' + squad); } catch (e) {} renderSquads(); link(); });
+    });
+  }
+
+  function link() {
+    var a = $('cs');
+    if (squad) { a.href = 'https://codespaces.new/zenika-dev/starter-' + squad; a.textContent = 'Ouvrir le Codespace de la squad ' + SQUADS.filter(function (s) { return s.id === squad; })[0].n; a.classList.remove('off'); }
+    else { a.href = '#'; a.textContent = 'Choisissez d\'abord votre squad'; a.classList.add('off'); }
+  }
+
+  function progress() {
+    var items = document.querySelectorAll('#steps>li'), n = 0;
+    Array.prototype.forEach.call(items, function (li) { var on = get('dj_' + li.dataset.k) === '1'; li.classList.toggle('done', on); if (on) n++; });
+    $('pn').textContent = n + ' sur ' + items.length;
+    $('pb').style.width = (n / items.length * 100) + '%';
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('#steps .ck'), function (b) {
+    b.addEventListener('click', function () { var k = b.closest('li').dataset.k; set('dj_' + k, get('dj_' + k) === '1' ? '0' : '1'); progress(); });
+  });
+  $('reset').addEventListener('click', function () { for (var i = 1; i <= 6; i++) set('dj_' + i, '0'); progress(); });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-copy]');
+    if (!b) return;
+    var t = b.getAttribute('data-copy');
+    var done = function () { var old = b.textContent; b.textContent = 'Copié'; setTimeout(function () { b.textContent = old; }, 1400); };
+    var fallback = function () { var ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); done(); } catch (x) {} document.body.removeChild(ta); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(done, fallback);
+    else fallback();
+  });
+
+  renderSquads(); link(); progress();
+})();
+</script>
+</body>
+</html>

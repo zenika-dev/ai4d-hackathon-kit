@@ -10,6 +10,7 @@ Le contexte partagé que les squads lisent et alimentent est dans un dépôt sé
 ## Par où commencer
 
 > **Pressé ?** La [fiche de démarrage](commun/fiche-demarrage.md) tient en une page.
+> **Le jour J** : la [page de démarrage](jour-j/demarrage.html) guide chaque participant en six étapes (squad, Codespace, connexion à Claude, `/bienvenue`).
 
 1. **[`commun/00-par-ou-commencer.md`](commun/00-par-ou-commencer.md)** : le pas à pas, d'avant le 23/10 jusqu'à la première heure de la session.
 2. La fiche de votre squad : `squads/<votre-squad>/KIT.md`.
@@ -32,7 +33,7 @@ Le Codespace s'ouvre dans le navigateur avec tout installé : VS Code, Claude Co
 | **3 · Paiement** | [starter-squad-3-paiement](https://codespaces.new/zenika-dev/starter-squad-3-paiement) |
 | **4 · Expérience** | [starter-squad-4-experience](https://codespaces.new/zenika-dev/starter-squad-4-experience) |
 
-Comptez environ 10 minutes, jusqu'au message « ✓ Codespace prêt » dans le terminal, puis connectez Claude avec `claude auth login`.
+Comptez environ 2 minutes, jusqu'au message « Welcome to Codespaces! » dans le terminal, puis connectez Claude avec `claude auth login`.
 Le pas à pas (fenêtres de permissions et de confiance du dossier) est dans la [fiche de démarrage, voie A](commun/fiche-demarrage.md#voie-a).
 
 ### Option B · installation sur votre poste
@@ -63,6 +64,12 @@ commun/
   01-bases-en-5-minutes.md          ← l'essentiel à lire avant la session
   02-spec-kit-x-context-nexus.md    ← quelle commande lancer, quel fichier lire, quel fichier publier
   03-prerequis-poste.md             ← 2 postes par squad, Codespace ou installation en une ligne
+jour-j/
+  demarrage.html                    ← page de démarrage du jour J : squad → Codespace → Claude → /bienvenue
+animation/
+  ecran-commun.md                   ← animer : écran commun, verdicts de gate, événement scripté
+  fiche-direction-revenu-annexe.md  ← réponses de référence de la « Direction Revenu Annexe »
+  tester-avant-lundi.md             ← tester seul, puis à deux machines avec deux comptes
 installation/
   installer-prerequis.ps1           ← Windows, sans droits admin
   installer-prerequis.sh            ← macOS, sans droits admin

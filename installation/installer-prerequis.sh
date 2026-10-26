@@ -9,11 +9,11 @@
 #
 # Arguments : <squad> (squad-1-offre, squad-2-prix, squad-3-paiement, squad-4-experience)
 #             --verifier (n'installe rien, affiche seulement le bilan)
-# Variable : SPEC_KIT_REF=<tag> pour installer une version précise de Spec Kit (défaut : main)
+# Variable : SPEC_KIT_REF=<tag> pour installer une version précise de Spec Kit (défaut : v1.2.3)
 
 set -uo pipefail
 
-SPEC_KIT_REF="${SPEC_KIT_REF:-main}"
+SPEC_KIT_REF="${SPEC_KIT_REF:-v1.2.3}"
 NODE_MAJOR=22
 SPEC_KIT_PYTHON=3.13   # version récente sans paquets précompilés pour toutes les dépendances = compilation
 NODE_DIR="$HOME/.local/share/nodejs"

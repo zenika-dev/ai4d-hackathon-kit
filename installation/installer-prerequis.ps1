@@ -8,13 +8,13 @@
 #   $env:SQUAD = "squad-2-prix"; irm https://raw.githubusercontent.com/zenika-dev/ai4d-hackathon-kit/main/installation/installer-prerequis.ps1 | iex
 #
 # Vérification seule :  $env:VERIFIER_SEULEMENT = "1"; puis la même commande
-# Version de Spec Kit : $env:SPEC_KIT_REF = "<tag>"; puis la même commande (défaut : main)
+# Version de Spec Kit : $env:SPEC_KIT_REF = "<tag>"; puis la même commande (défaut : v1.2.3)
 
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
-$SpecKitRef = if ($env:SPEC_KIT_REF) { $env:SPEC_KIT_REF } else { 'main' }
+$SpecKitRef = if ($env:SPEC_KIT_REF) { $env:SPEC_KIT_REF } else { 'v1.2.3' }
 $NodeMajor  = 22
 $SpecKitPython = '3.13'
 $Programs   = Join-Path $env:LOCALAPPDATA 'Programs'

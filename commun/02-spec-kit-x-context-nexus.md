@@ -10,7 +10,7 @@
 ```
             context-nexus/ (partagé)                         starter-<squad>/ (à vous)
  ┌───────────────────────────────────────────┐       ┌──────────────────────────────────────┐
- │ org/  programme/  teams/<voisines>/       │       │ CLAUDE.md  ──@import──► .context/    │
+ │ org/  programme/  teams/<autres-squads>/  │       │ CLAUDE.md  ──@import──► .context/    │
  │        │                                  │ assem-│                         brief.md      │
  │        └── context-assemble ─────────────────ble──►  .specify/memory/constitution.md    │
  │                                           │       │  specs/001-…/spec.md plan.md        │
@@ -25,6 +25,16 @@
 - **On lit** le Nexus via `context-assemble`, qui produit `.context/brief.md` dans votre starter.
 - **On travaille** avec Spec Kit dans le starter. Claude Code charge le brief grâce au `CLAUDE.md` fourni.
 - **On publie** dans le Nexus ce que les autres doivent connaître : Business Intent, spec, contrat, runbook.
+
+## Votre copilote dans le terminal
+
+| Vous voulez | Tapez |
+|---|---|
+| Être accueilli, vérifier l'environnement | `/bienvenue` |
+| Savoir où en est la squad, ce qui manque avant la gate, la prochaine commande | `/coach` |
+| Le même état, sans l'agent | `node ../context-nexus/tools/hackathon-status.mjs` |
+
+L'**écran commun** de la salle montre les gates des quatre squads, le graphe des contrats du Nexus et les jalons communs. Quand un contrat change, c'est là qu'on le voit en premier.
 
 ## Mise en route (fin du cadrage, avant 0:30)
 
@@ -45,7 +55,7 @@ Le **Context Engineer** relance l'assemblage **au début de chaque bloc** et dè
 
 ## Discover (→ G1) · lire avant d'écrire
 
-1. Lire `.context/brief.md` : règles, brief, règles métier, **contrats v0 de vos voisines**.
+1. Lire `.context/brief.md` : règles, brief, règles métier, **contrats v0 des autres squads**.
 2. Lire votre propre contrat v0 dans `teams/<squad>/contracts/`.
 3. Remplir `teams/<squad>/intent/business-intent.md` avec le gabarit `gabarits/business-intent.md`.
    L'agent peut proposer un brouillon : **les 5 champs sont validés par un humain** (invariante du Nexus : l'Intent est humain).
@@ -64,8 +74,8 @@ Ne rédige pas la Business Intent Spec : pose les questions.
 |---|---|---|---|
 | 1 | `/speckit-constitution` | Les sections « system prompt » de `.context/brief.md` (règles org, contracts, conventions) | 5 min |
 | 2 | `/speckit-specify` | Votre `business-intent.md` + votre contrat v0 | 10 min |
-| 3 | `/speckit-clarify` | Rien : répondez à ses questions. Les réponses qui touchent une voisine → allez la voir | 5 min |
-| 4 | `/speckit-plan` | La stack du starter + les contrats voisins épinglés (Specification Engineer et Orchestrator) | 10 min |
+| 3 | `/speckit-clarify` | Rien : répondez à ses questions. Les réponses qui touchent une autre squad → allez la voir | 5 min |
+| 4 | `/speckit-plan` | La stack du starter + les contrats des autres squads épinglés (Specification Engineer et Orchestrator) | 10 min |
 | 5 | `/speckit-tasks` | Rien | 3 min |
 | 6 | `/speckit-analyze` | Rien : lisez son rapport, corrigez | 5 min |
 | 7 | Publier contrat v1 + spec | Voir « Publier » | 7 min |
@@ -92,15 +102,16 @@ Pour chaque champ échangé avec une autre squad, vérifie type, unité et forma
 ```
 
 **Avant G2**, le Context Engineer vérifie :
-- le contrat v1 est publié, `version: 1.0.0`, avec ses `consumes` épinglés sur les versions **actuelles** des voisines ;
+- le contrat v1 est publié, `version: 1.0.0`, avec ses `consumes` épinglés sur les versions **actuelles** des autres squads ;
 - la spec est publiée dans `teams/<squad>/intent/specs/`, `status: active`, avec un `owner` nommé ;
 - `node tools/context-assemble.mjs --squad <squad> --check` passe.
+- les deux **contrats-ancres** sont publiés à temps : M1 `regle-prix` v1 avant 14h55, M2 `evenements-achat` v1 avant 15h05 (« Ordre de publication » de votre `KIT.md`).
 
 ## Develop (→ G3) · implémenter, et encaisser un changement
 
 1. `/speckit-implement` tâche par tâche. L'Orchestrator garde un œil sur le budget de tokens.
 2. Après chaque tâche : tests verts, commit. Les critères d'acceptance ont chacun un test nommé (ENG-04).
-3. **Pendant le Develop, un contrat voisin change** (c'est l'événement scripté de la session, annoncé sur l'écran commun). Le Context Engineer lance :
+3. **Pendant le Develop, un contrat d'une autre squad change** (c'est l'événement scripté de la session, annoncé sur l'écran commun). Le Context Engineer lance :
    ```bash
    git -C ../context-nexus pull
    node ../context-nexus/tools/context-assemble.mjs --squad <squad> --mark-stale --out .context/brief.md
@@ -119,7 +130,7 @@ Pour chaque champ échangé avec une autre squad, vérifie type, unité et forma
 - Déployer avec le script du starter, flag **désactivé**.
 - Basculer le flag **uniquement** via `npm run flag` : la ligne du journal est la preuve (voir `programme/late-checkout/operations/feature-flags.md`).
 - Publier dans `teams/<squad>/operations/` : `runbook.md` (gabarit `gabarits/runtime-spec.md`), `flags-journal.md`.
-- Publier vos KPI ou événements instrumentés : c'est ce que les squads voisines liront à G5.
+- Publier vos KPI ou événements instrumentés : c'est ce que les autres squads liront à G5.
 
 ## Deepen (→ G5) et Drop (→ G6) · en bonus, si le temps le permet
 
@@ -139,6 +150,8 @@ git -C ../context-nexus commit -m "<squad>: publie <artefact> v<version>"
 git -C ../context-nexus pull --rebase
 git -C ../context-nexus push
 ```
+
+**Plus simple et plus sûr** : `node ../context-nexus/tools/publish.mjs -m "publie business-intent v1.0.0"`. L'outil montre ce qui part, ne prend que `teams/<squad>/`, et recommence tout seul si quelqu'un publie au même moment (le « push refusé »). Demandez-le aussi à Claude : « Publie mes changements ».
 
 Pour publier une spec Spec Kit, copiez `specs/001-…/spec.md` dans `teams/<squad>/intent/specs/<squad>-001.md`
 et ajoutez **en tête** le frontmatter du gabarit `gabarits/frontmatter-spec.md`.

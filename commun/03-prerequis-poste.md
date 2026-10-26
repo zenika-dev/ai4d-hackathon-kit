@@ -17,7 +17,7 @@ Il faut seulement un navigateur et un compte GitHub.
 
 1. Créez un compte sur [github.com](https://github.com) si vous n'en avez pas, et envoyez votre identifiant au support.
 2. Le jour J, cliquez sur le **lien Codespace de votre squad** (dans la fiche de démarrage, voie A).
-3. Ne changez aucun réglage, cliquez sur le bouton vert **Create codespace** en bas à droite, puis attendez environ 10 minutes, jusqu'au message « ✓ Codespace prêt » dans le terminal.
+3. Ne changez aucun réglage, cliquez sur le bouton vert **Create codespace** en bas à droite, puis attendez environ 2 minutes, jusqu'au message « Welcome to Codespaces! » dans le terminal.
 
 Le pas à pas illustré est dans la **fiche de démarrage** (`fiche-demarrage.md`, voie A).
 
@@ -53,12 +53,9 @@ Pour seulement vérifier, sans rien installer : ajoutez `--verifier` après le n
 
 ## Accès à Claude
 
-Vous utilisez **votre compte Claude** (l'abonnement fourni par l'entreprise), pas une clé API :
-- vérifiez avant le 23/10 que vous pouvez vous connecter à [claude.ai](https://claude.ai) ;
-- dans Claude Code, la connexion se fait avec `claude auth login` (ou au premier lancement de `claude`), puis dans le navigateur ;
+Le **compte Claude** est fourni lundi, sur place, par l'équipe Programme AI4D : rien à créer ni à vérifier d'ici là, et pas de clé API.
+- dans Claude Code, la connexion se fait avec `claude auth login` (ou au premier lancement de `claude`), puis dans le navigateur, avec les identifiants remis sur place ;
 - `claude auth status --text` affiche le compte connecté.
-
-Pas de compte Claude ? Signalez-le au support avant le 23/10.
 
 ## Ce que vous n'avez pas besoin de préparer
 

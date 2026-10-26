@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Fiche de l'accompagnateur · Hackathon Champions</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap">
+<style>
+/* Charte du TOM AI4D, comme jour-j/demarrage.html : thème sombre unique (bleu nuit, turquoise, sable, bordeaux), Montserrat.
+   Mise en page : une colonne courte à lire en 10 minutes ; le détail s'affiche au survol (ou au clic, au clavier) des éléments soulignés en pointillés. */
+:root{
+  --bg:#020032; --surface:#0B0B48; --surface2:#14145A; --line:#2B2B6B;
+  --ink:#E1EBEB; --muted:#B2B2C8;
+  --teal:#5EBBC6; --teal-t:#0A3550; --teal-b:#14586B;
+  --sand:#D6A978; --sand-t:#2D1530; --sand-b:#7A1042;
+  --rose:#EE7A98; --rose-t:#3A0B26;
+  --on-accent:#020032;
+  --font:'Montserrat',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
+  --mono:ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{background:var(--bg);scroll-behavior:smooth;scroll-padding-top:60px}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 72px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+h1,h2,h3,h4,p,ul,ol,figure{margin:0}
+h1,h2,h3{text-wrap:balance}
+a{color:var(--teal)}
+code{font-family:var(--mono);font-size:.88em;background:var(--surface2);border-radius:5px;padding:1px 5px;overflow-wrap:anywhere}
+.wrap{max-width:920px;margin:0 auto}
+.eyebrow{font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sand)}
+.muted{color:var(--muted)}
+.small{font-size:14.5px}
+
+.head{padding-block:30px 16px;display:flex;flex-direction:column;gap:10px}
+.head h1{font-size:clamp(28px,5vw,38px);font-weight:700;line-height:1.15}
+.head .lead{color:var(--muted);font-size:17px;max-width:66ch}
+.hint{display:inline-flex;gap:8px;align-items:center;font-size:14px;color:var(--ink);background:var(--teal-t);border:1px solid var(--teal-b);border-radius:999px;padding:5px 14px;align-self:flex-start}
+
+nav.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line);margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)));padding-inline:max(16px,env(safe-area-inset-left,0px))}
+nav.toc .in{max-width:920px;margin:0 auto;display:flex;gap:2px;overflow-x:auto;padding-block:7px;scrollbar-width:thin}
+nav.toc a{flex:none;text-decoration:none;color:var(--muted);font-size:13.5px;font-weight:600;padding:6px 10px;border-radius:8px;white-space:nowrap}
+nav.toc a:hover,nav.toc a.on{color:var(--ink);background:var(--surface2)}
+nav.toc a b{color:var(--sand);margin-right:4px}
+
+section.sec{padding-top:36px;display:flex;flex-direction:column;gap:14px}
+section.sec>h2{font-size:clamp(21px,3.2vw,26px);font-weight:700;line-height:1.2;display:flex;gap:12px;align-items:baseline}
+section.sec>h2 .n{font-size:14px;color:var(--sand);font-weight:700;flex:none}
+h3{font-size:17.5px;font-weight:700}
+.prose{max-width:70ch}
+ul.l{padding-left:1.15em;display:flex;flex-direction:column;gap:5px}
+
+.card{border-radius:14px;padding:13px 16px;border:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column;gap:6px;min-width:0}
+.card.t{background:var(--teal-t);border-color:var(--teal-b)}
+.card.s{background:var(--sand-t);border-color:var(--sand-b)}
+.card.r{background:var(--rose-t);border-color:var(--rose)}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr))}
+.grid.two{grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr))}
+.k{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
+.say{border-left:3px solid var(--sand);padding:4px 0 4px 14px;font-style:italic;max-width:70ch}
+.say::before{content:"À dire · ";font-style:normal;font-weight:700;color:var(--sand);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase}
+
+/* survol */
+.tip{border-bottom:1.5px dotted var(--teal);cursor:help;border-radius:2px}
+.tip:hover,.tip:focus-visible{color:var(--teal);outline:none}
+svg g.tip{cursor:help;outline:none}
+svg g.tip:hover .box,svg g.tip:focus .box{stroke:var(--sand);stroke-width:2.2}
+svg g.tip:hover .gate,svg g.tip:focus .gate{fill:var(--sand)}
+.tipbox{position:fixed;z-index:60;max-width:min(440px,calc(100vw - 24px));background:var(--surface2);border:1px solid var(--teal-b);border-radius:10px;padding:10px 13px;font-size:14px;line-height:1.5;color:var(--ink);box-shadow:0 10px 28px rgba(0,0,0,.5);pointer-events:none}
+.tipbox b{color:var(--teal)}
+.tipbox code{background:var(--bg)}
+
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px;line-height:1.45}
+th,td{text-align:left;vertical-align:top;padding:8px 12px;border-bottom:1px solid var(--line)}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--surface2);font-weight:700;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.h{white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:700}
+table.slots td,table.slots th{text-align:center;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.slots td:first-child,table.slots th:first-child{text-align:left}
+.g{display:inline-block;font-weight:700;color:var(--on-accent);background:var(--teal);border-radius:6px;padding:0 6px;font-size:.88em}
+
+figure.fig{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:12px;display:flex;flex-direction:column;gap:6px}
+figure.fig .sv{overflow-x:auto}
+figure.fig svg{display:block;min-width:640px;width:100%;height:auto}
+svg text{font-family:var(--font);fill:var(--ink)}
+svg .mu{fill:var(--muted)} svg .te{fill:var(--teal)} svg .sa{fill:var(--sand)} svg .ro{fill:var(--rose)}
+svg .mo{font-family:var(--mono)}
+svg .box{fill:var(--surface2);stroke:var(--line);stroke-width:1.5}
+svg .box.t{fill:var(--teal-t);stroke:var(--teal-b)}
+svg .box.s{fill:var(--sand-t);stroke:var(--sand-b)}
+svg .box.r{fill:var(--rose-t);stroke:var(--rose)}
+svg .box.d{fill:var(--surface);stroke:var(--line);stroke-dasharray:5 4}
+svg .box.o{fill:none;stroke:var(--teal-b);stroke-dasharray:6 4}
+svg .gate{fill:var(--teal)}
+svg .gate.d{fill:var(--bg);stroke:var(--teal);stroke-width:1.5;stroke-dasharray:3 3}
+svg .ln{stroke:var(--muted);stroke-width:1.5;fill:none}
+svg .ln.t{stroke:var(--teal)} svg .ln.r{stroke:var(--rose);stroke-width:2.2} svg .ln.s{stroke:var(--sand)}
+svg .ln.d{stroke-dasharray:5 4}
+svg .ah{fill:var(--muted)} svg .ah.t{fill:var(--teal)} svg .ah.r{fill:var(--rose)} svg .ah.s{fill:var(--sand)}
+svg .gt{fill:var(--on-accent);font-weight:700}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-size:14px;font-weight:600}
+.chip.tip{border-bottom:1px solid var(--line)}
+.chip.tip::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--teal)}
+.chip.tip:hover,.chip.tip:focus-visible{border-color:var(--teal);color:var(--ink)}
+ol.steps{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:8px;counter-reset:s}
+ol.steps li{counter-increment:s}
+ol.steps li .chip::before{content:counter(s);font-weight:700;color:var(--sand)}
+
+#memo .memo{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));font-size:13.5px;line-height:1.42}
+#memo .memo .card{padding:10px 12px;gap:5px}
+#memo .memo h4{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--sand)}
+#memo .memo ul{padding-left:1em;display:flex;flex-direction:column;gap:2px}
+#memo table{font-size:12.5px}
+#memo th,#memo td{padding:4px 7px}
+.foot{margin-top:36px;font-size:13px;color:var(--muted)}
+:focus-visible{outline:3px solid var(--sand);outline-offset:2px;border-radius:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="head">
+  <p class="eyebrow">Hackathon Champions · dry run AI4D · lundi 26/10/2026 · 13h30 – 17h30 · Tour Sequana</p>
+  <h1>Fiche de l'accompagnateur</h1>
+  <p class="lead">Pour le créateur du hackathon, qui l'explique à tout le monde, et coach d'une squad le jour J. L'essentiel se lit en 10 minutes ; le détail apparaît au survol.</p>
+  <span class="hint">Survolez ce qui est <span class="tip" tabindex="0" data-tip="Comme ceci. Au clavier : tabulation. Sur un écran tactile : touchez l'élément.">souligné en pointillés</span> pour le détail.</span>
+</header>
+
+<nav class="toc" aria-label="Sommaire"><div class="in">
+  <a href="#essentiel"><b>1</b>L'essentiel</a>
+  <a href="#deroule"><b>2</b>Déroulé</a>
+  <a href="#pdlc"><b>3</b>PDLC et gates</a>
+  <a href="#sdd"><b>4</b>Spec Kit</a>
+  <a href="#nexus"><b>5</b>Nexus</a>
+  <a href="#velora"><b>6</b>Vélora</a>
+  <a href="#dra"><b>DRA</b>Direction Revenu</a>
+  <a href="#outils"><b>7</b>Outils</a>
+  <a href="#role"><b>8</b>Mon rôle</a>
+  <a href="#glossaire"><b>9</b>Glossaire</a>
+  <a href="#memo"><b>✓</b>Aide-mémoire</a>
+</div></nav>
+
+<!-- ============ 1 ============ -->
+<section class="sec" id="essentiel">
+  <h2><span class="n">1</span>L'essentiel</h2>
+  <p class="prose"><b>Pourquoi.</b> Selon le TOM, l'IA change le PDLC moins en codant plus vite qu'en déplaçant le travail vers le <b>contexte</b>, les <b>specs</b>, les <b>décisions humaines</b> et les <b>gates</b>. En 4 heures, les champions le vivent de bout en bout, avant d'en être les <span class="tip" tabindex="0" data-tip="Hackathons de 8 h des équipes : 29/10 (Engineering et QA, Front), 03/11 (Back), 06/11 (Ops, Platform), 16/11 (Data). Chaque champion y est référent du déroulé dans sa propre équipe.">référents aux hackathons de 8 h</span>.</p>
+  <p class="prose"><b>Ce qu'ils vivent.</b> 24 personnes, 4 squads de 6, un sujet fictif : le <b>late check-out à la carte chez Vélora Hôtels</b>, découpé en 4 volets qui dépendent les uns des autres. Discover, Design, Develop, Deploy, chacune close par une gate, avec Claude, Spec Kit et le Context Nexus. Un seul imprévu, scripté : <span class="tip" tabindex="0" data-tip="Vers 15h50, le plafond de prix passe d'un montant à un pourcentage : le contrat <code>regle-prix</code> passe en 2.0.0. Détail en section 6.">un contrat partagé change vers 15h50</span>.</p>
+
+  <div class="grid">
+    <div class="card"><span class="k">Qualité</span><p>Les ambiguïtés sont trouvées <b>avant</b> le code.</p><p class="small muted"><span class="tip" tabindex="0" data-tip="Test du 25/10, squad Prix. Pendant <code>specify</code> et <code>clarify</code>, l'agent a demandé : quelle nuit mesure l'occupation (départ ou veille) ? Où tombent les seuils 59/60, 85/86, 95/96 ? Quel est le dénominateur de <code>attach_rate</code> ? Résultat : 27 tests nommés d'après leurs critères d'acceptance, couverture ≥ 70 %, quatre <code>gate-check</code> verts.">La preuve du test</span></p></div>
+    <div class="card"><span class="k">Vitesse, avec sa qualité</span><p>Réalignement en <b>7 min 03</b>, et G3 vert à la sortie.</p><p class="small muted"><span class="tip" tabindex="0" data-tip="Après l'événement, contrat, spec, tâches, code et tests réalignés en 7 min 03 par Prix et les deux squads qui consomment son contrat (Offre et Paiement, <b>simulées par script</b> pendant ce test). On ne cite jamais ce chrono sans le gate-check vert qui l'accompagne.">La preuve du test</span></p></div>
+    <div class="card"><span class="k">Alignement entre équipes</span><p>G2 repasse <b>au rouge tout seul</b> quand un contrat change.</p><p class="small muted"><span class="tip" tabindex="0" data-tip="Quand Expérience et Offre (simulées) ont publié leur v1, l'outil a affiché <code>RUPTURE … épinglé 0.1.0 → actuel 1.0.0</code> et le critère G2-4 est repassé au rouge. Après l'événement, G3-6 est resté rouge tant que la spec n'était pas réalignée. L'alignement ne repose plus sur la mémoire de chacun.">La preuve du test</span></p></div>
+    <div class="card"><span class="k">Maîtrise de l'IA</span><p>L'agent <b>propose</b>, les humains <b>décident</b>.</p><p class="small muted"><span class="tip" tabindex="0" data-tip="Intent laissé en <code>draft</code>, contrats « à relire et signer », re-épinglage proposé mais pas décidé, flag impossible à activer par l'agent : un garde-fou le bloque, et il explique pourquoi.">La preuve du test</span></p></div>
+  </div>
+  <p class="small prose"><b style="color:var(--sand)">Règle du TOM :</b> jamais d'indicateur de vitesse sans indicateur de qualité. Et <span class="tip" tabindex="0" data-tip="Le TOM : « pas de valeur sans baseline ». Ces chiffres viennent d'un seul test, sans mesure avant l'IA. Ils montrent le mécanisme, pas un gain prouvé ; la mesure viendra des pilotes.">restez honnête sur ces chiffres</span>.</p>
+  <p class="say">L'IA écrit vite, mais elle ne connaît ni Vélora ni ce que décident les autres équipes. Le travail utile, c'est de bien dire le besoin, de donner le bon contexte et de vérifier. Les gates, les specs et le Nexus servent à ça.</p>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="sec" id="deroule">
+  <h2><span class="n">2</span>Le déroulé</h2>
+  <p class="small muted prose">Horaires de la squad 1 ; les squads 2, 3, 4 sont décalées de 5, 10, 15 minutes. Survolez un moment pour savoir quoi dire et quoi regarder.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Heure</th><th>Moment</th><th>Ce qui doit en sortir</th></tr></thead>
+    <tbody>
+    <tr><td class="h">12h30</td><td><span class="tip" tabindex="0" data-tip="<b>Je dis :</b> « Ouvrez la page de départ, choisissez votre squad, suivez les six étapes. Ne tapez rien avant « Welcome to Codespaces! ». »<br><b>Je regarde :</b> le terminal affiche « Login successful ».">Installation</span></td><td>Codespace prêt, Claude connecté</td></tr>
+    <tr><td class="h">13h30</td><td><span class="tip" tabindex="0" data-tip="Accueil, règles du jeu, brief Vélora, volets, responsabilités (30 min, absorbe les retards).<br><b>Je dis :</b> « Une gate, c'est un contrôle automatique puis une décision humaine. On n'écrit que chez soi dans le Nexus. »">Cadrage</span> · 13h45 <span class="tip" tabindex="0" data-tip="Même prompt, sans puis avec le contexte du Nexus. <b>Je dis :</b> « Comptez ce que l'agent invente. » Détail en section 5.">démo sans / avec contexte</span></td><td>Responsabilités réparties</td></tr>
+    <tr><td class="h">14h00</td><td><span class="tip" tabindex="0" data-tip="Décalée de 0 à 15 min selon la squad. <b>Je dis :</b> « Tapez /bienvenue. Ensuite, /coach répond à tout moment. »<br><b>Je regarde :</b> Claude cite le volet et les contrats des autres squads avec leurs versions.">Mise en route</span> puis <b>Discover</b> <span class="g">G1 14h25</span></td><td>Business Intent Spec, succès chiffré</td></tr>
+    <tr><td class="h">14h30</td><td><b>Design</b> · <span class="tip" tabindex="0" data-tip="<b>M1</b> avant 14h55 : <code>regle-prix</code> v1 publiée par Prix. <b>M2</b> avant 15h05 : <code>evenements-achat</code> v1 par Expérience. Sans eux, les autres squads passent G2 sur une version périmée. Ils s'affichent sur l'écran commun.<br><b>Je dis :</b> « Publiez une v1 courte tôt, les autres s'épinglent dessus. »">jalons M1 et M2</span> <span class="g">G2 15h10</span></td><td>Spec, plan, tâches, contrat v1</td></tr>
+    <tr><td class="h">15h15</td><td>Pause (10 min)</td><td><span class="tip" tabindex="0" data-tip="G2 pas passée 10 min après le créneau : le Develop devient guidé par le coach.">Règle de coupe G2</span></td></tr>
+    <tr><td class="h">15h25</td><td><b>Develop</b> · <span class="tip" tabindex="0" data-tip="Bouton « Déclencher » du poste des gate keepers. Lire la phrase à voix haute, sans la commenter.<br><b>Je regarde :</b> le contrat passe en rouge sur l'écran, ses consommateurs en ambre, un chrono tourne.">≈ 15h50 l'événement</span> <span class="g">G3 16h10</span></td><td>Code, tests, spec réalignée</td></tr>
+    <tr><td class="h">16h15</td><td><b>Deploy</b> <span class="g">G4 16h35</span></td><td><span class="tip" tabindex="0" data-tip="<b>Je dis :</b> « Déployer et activer sont deux décisions. Qui active, et pourquoi ? »<br><b>Je regarde :</b> une ligne par flag dans le journal, un owner et un rollback dans le runbook. G4 pas passée à 16h55 : la squad prépare sa démo.">Flag activé par un humain, runbook</span></td></tr>
+    <tr><td class="h">16h40</td><td><span class="tip" tabindex="0" data-tip="Deepen (G5) : continuer, ajuster ou retirer, sur 30 jours de télémétrie fournie. Drop (G6) : cadrer le retrait de l'ancien processus. Version courte, ou à l'oral.">Bonus G5 et G6</span></td><td>Un verdict face à G1</td></tr>
+    <tr><td class="h">16h55</td><td><span class="tip" tabindex="0" data-tip="Préparer la démo (10'), démos croisées (5'), rétro du TOM (10'), retour pour le 8 h (10').<br><b>Je dis :</b> « Qu'expliqueriez-vous à votre équipe ? »">Débrief</span></td><td>Dix points retenus</td></tr>
+    </tbody></table></div>
+
+  <div class="tw"><table class="slots">
+    <thead><tr><th>Squad</th><th>Discover</th><th>G1</th><th>G2</th><th>G3</th><th>G4</th><th>Bonus</th></tr></thead>
+    <tbody>
+    <tr><td><b>1 · Offre</b></td><td>14h00</td><td>14h25</td><td>15h10</td><td>16h10</td><td>16h35</td><td>16h40</td></tr>
+    <tr><td><b>2 · Prix</b></td><td>14h05</td><td>14h30</td><td>15h15</td><td>16h15</td><td>16h40</td><td>16h45</td></tr>
+    <tr><td><b>3 · Paiement</b></td><td>14h10</td><td>14h35</td><td>15h20</td><td>16h20</td><td>16h45</td><td>16h50</td></tr>
+    <tr><td><b>4 · Expérience</b></td><td>14h15</td><td>14h40</td><td>15h25</td><td>16h25</td><td>16h50</td><td>oral</td></tr>
+    </tbody></table></div>
+  <p class="small muted">Gate keepers : produit (G1), tech (G2, G3), run (G4) ; data (G5) et produit (G6). Créneau de 5 minutes ; après chaque gate, <span class="tip" tabindex="0" data-tip="20 secondes après chaque verdict, et 2 minutes en fin de session : le coach la demande, Claude l&#39;enregistre et la publie dans <code>teams/&lt;squad&gt;/operations/retours.md</code>. Les greffiers la lisent dans le Nexus. Lecture par squad, jamais par personne : elle alimente le learning report du TOM.">fiche de retour</span>.</p>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="sec" id="pdlc">
+  <h2><span class="n">3</span>Le PDLC et les gates</h2>
+  <p class="prose">Six phases ; chacune produit une spec, une gate la clôt. <b>Une gate = un contrôle automatique, puis une décision humaine.</b> Un no-go nomme le critère qui manque. Survolez une phase ou une gate.</p>
+  <figure class="fig">
+    <div class="sv"><svg viewBox="0 0 910 172" role="img" aria-label="Les six phases du PDLC, chacune close par une gate">
+      <defs><marker id="a-sa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="ah s" d="M0,0L10,5L0,10z"/></marker></defs>
+      <path class="ln" d="M122,55H126M154,55H158M270,55H274M302,55H306M418,55H422M450,55H454M566,55H570M598,55H602M714,55H718M746,55H750M862,55H866"/>
+      <g class="tip" tabindex="0" data-tip="<b>Discover</b> · transformer un brief flou en besoin mesurable.<br>Livrable : Business Intent Spec à 5 champs (problème, utilisateurs, succès chiffré, données, priorité et owner) dans <code>intent/business-intent.md</code>.<br>À comprendre : le quoi et le pourquoi sont humains ; l'agent rédige, il n'invente pas un seuil.<br>Vélora : Prix va demander son seuil à la Direction Revenu Annexe.">
+        <rect class="box t" x="10" y="18" width="112" height="74" rx="10"/><text x="66" y="46" text-anchor="middle" font-weight="700" font-size="15">Discover</text><text class="mu" x="66" y="66" text-anchor="middle" font-size="11">Business Intent</text><text class="mu" x="66" y="80" text-anchor="middle" font-size="11">Spec</text></g>
+      <g class="tip" tabindex="0" data-tip="<b>Design</b> · une solution vérifiable et alignée, avant le code.<br>Livrables : spec, plan, tâches (Spec Kit) ; spec publiée dans <code>intent/specs/</code> ; contrat v1 publié.<br>À comprendre : un contrat publié et épinglé remplace des réunions d'alignement.<br>Vélora : Prix publie <code>regle-prix</code> v1 avant 14h55, même si son plan n'est pas fini.">
+        <rect class="box t" x="158" y="18" width="112" height="74" rx="10"/><text x="214" y="46" text-anchor="middle" font-weight="700" font-size="15">Design</text><text class="mu" x="214" y="66" text-anchor="middle" font-size="11">Solution Design</text><text class="mu" x="214" y="80" text-anchor="middle" font-size="11">Spec + contrat v1</text></g>
+      <g class="tip" tabindex="0" data-tip="<b>Develop</b> · du code conforme à la spec, testé, toujours aligné.<br>Livrables : code et tests (un test nommé par critère d'acceptance), spec <code>active</code>, pas <code>stale</code>.<br>À comprendre : quand un contrat change, on réaligne la spec <b>avant</b> de recoder.<br>Vélora : en Paiement, pas de G3 sans signature humaine du code de débit.">
+        <rect class="box t" x="306" y="18" width="112" height="74" rx="10"/><text x="362" y="46" text-anchor="middle" font-weight="700" font-size="15">Develop</text><text class="mu" x="362" y="66" text-anchor="middle" font-size="11">Code + Test</text><text class="mu" x="362" y="80" text-anchor="middle" font-size="11">Specs</text></g>
+      <g class="tip" tabindex="0" data-tip="<b>Deploy</b> · livré, observable, activé par une décision tracée.<br>Livrables : runbook (owner, rollback), journal des flags, KPI publiés.<br>À comprendre : Release ≠ Activation. Déployer et activer sont deux décisions, toutes deux tracées.<br>Vélora : <code>npm run deploy</code>, puis un humain lance <code>npm run flag</code>.">
+        <rect class="box t" x="454" y="18" width="112" height="74" rx="10"/><text x="510" y="46" text-anchor="middle" font-weight="700" font-size="15">Deploy</text><text class="mu" x="510" y="66" text-anchor="middle" font-size="11">Runtime</text><text class="mu" x="510" y="80" text-anchor="middle" font-size="11">Specs</text></g>
+      <g class="tip" tabindex="0" data-tip="<b>Deepen</b> (bonus) · juger la valeur réelle sur 30 jours de télémétrie fournie, coût IA compris.<br>Livrable : Opportunity Spec, un seul verdict parmi trois, comparé au critère de succès de G1.">
+        <rect class="box d" x="602" y="18" width="112" height="74" rx="10"/><text x="658" y="46" text-anchor="middle" font-weight="700" font-size="15">Deepen</text><text class="mu" x="658" y="66" text-anchor="middle" font-size="11">Opportunity Spec</text><text class="sa" x="658" y="81" text-anchor="middle" font-size="10.5" font-weight="700">BONUS</text></g>
+      <g class="tip" tabindex="0" data-tip="<b>Drop</b> (bonus) · cadrer le retrait de l'ancien processus (le LCO accordé à la réception).<br>Livrable : Retirement Spec avec la carte des dépendances.">
+        <rect class="box d" x="750" y="18" width="112" height="74" rx="10"/><text x="806" y="46" text-anchor="middle" font-weight="700" font-size="15">Drop</text><text class="mu" x="806" y="66" text-anchor="middle" font-size="11">Retirement Spec</text><text class="sa" x="806" y="81" text-anchor="middle" font-size="10.5" font-weight="700">BONUS</text></g>
+      <g class="tip" tabindex="0" data-tip="<b>G1 Ready to Spec</b> · keeper produit.<br>Machine : Intent publiée, <code>active</code> avec owner, datée, 5 champs remplis, un nombre au champ 3.<br>Humain : le seuil est-il décidé, par qui, sur quel horizon, avec quelle source ?"><rect class="gate" x="126" y="41" width="28" height="28" rx="4" transform="rotate(45 140 55)"/><text class="gt" x="140" y="59" text-anchor="middle" font-size="11">G1</text><text class="te" x="140" y="114" text-anchor="middle" font-size="10.5" font-weight="600">Ready to Spec</text></g>
+      <g class="tip" tabindex="0" data-tip="<b>G2 Ready to Build</b> · keeper tech.<br>Machine : spec publiée et <code>active</code> avec owner, contrats ≥ 1.0.0, épinglages à jour.<br>Humain : critères testables, exigences non fonctionnelles chiffrées, écarts réglés avec les autres squads."><rect class="gate" x="274" y="41" width="28" height="28" rx="4" transform="rotate(45 288 55)"/><text class="gt" x="288" y="59" text-anchor="middle" font-size="11">G2</text><text class="te" x="288" y="114" text-anchor="middle" font-size="10.5" font-weight="600">Ready to Build</text></g>
+      <g class="tip" tabindex="0" data-tip="<b>G3 Ready to Release</b> · keeper tech.<br>Machine : lint, typecheck, tests et couverture ≥ 70 %, scan PCI et secrets, audit des dépendances, rien de <code>stale</code> ; signature en Paiement.<br>Humain : revue nommée, un test par critère, plan de flags."><rect class="gate" x="422" y="41" width="28" height="28" rx="4" transform="rotate(45 436 55)"/><text class="gt" x="436" y="59" text-anchor="middle" font-size="11">G3</text><text class="te" x="436" y="114" text-anchor="middle" font-size="10.5" font-weight="600">Ready to Release</text></g>
+      <g class="tip" tabindex="0" data-tip="<b>G4 Released and Observable</b> · keeper run.<br>Machine : flags tracés, runbook publié contenant « owner » et « rollback », service qui répond.<br>Humain : runbook réellement rempli, KPI instrumentés, coût en tokens (non vérifiés par la machine)."><rect class="gate" x="570" y="41" width="28" height="28" rx="4" transform="rotate(45 584 55)"/><text class="gt" x="584" y="59" text-anchor="middle" font-size="11">G4</text><text class="te" x="584" y="114" text-anchor="middle" font-size="10.5" font-weight="600">Released and</text><text class="te" x="584" y="127" text-anchor="middle" font-size="10.5" font-weight="600">Observable</text></g>
+      <g class="tip" tabindex="0" data-tip="<b>G5 Opportunity or Retire</b> · keeper data, bonus.<br>Machine : Opportunity Spec publiée, un seul verdict coché.<br>Humain : le verdict cite la promesse de G1 et les chiffres des 30 jours."><rect class="gate d" x="718" y="41" width="28" height="28" rx="4" transform="rotate(45 732 55)"/><text class="te" x="732" y="59" text-anchor="middle" font-size="11" font-weight="700">G5</text><text class="te" x="732" y="114" text-anchor="middle" font-size="10.5" font-weight="600">Opportunity</text><text class="te" x="732" y="127" text-anchor="middle" font-size="10.5" font-weight="600">or Retire</text></g>
+      <g class="tip" tabindex="0" data-tip="<b>G6 Retirement Scoped</b> · keeper produit, bonus.<br>Machine : Retirement Spec publiée, chaque dépendance a sa disposition (migrer, garder, supprimer).<br>Humain : utilisateurs impactés, porteur de la communication, decision record."><rect class="gate d" x="866" y="41" width="28" height="28" rx="4" transform="rotate(45 880 55)"/><text class="te" x="880" y="59" text-anchor="middle" font-size="11" font-weight="700">G6</text><text class="te" x="876" y="114" text-anchor="middle" font-size="10.5" font-weight="600">Retirement</text><text class="te" x="876" y="127" text-anchor="middle" font-size="10.5" font-weight="600">Scoped</text></g>
+      <path class="ln s d" d="M806,136C806,168 66,168 66,96" marker-end="url(#a-sa)"/>
+      <text class="sa" x="436" y="146" text-anchor="middle" font-size="11" font-weight="600">G5 et G6 renvoient vers Discover : tout nouveau besoin repart d'une intention validée</text>
+    </svg></div>
+  </figure>
+  <div class="grid">
+    <div class="card"><span class="k">La machine vérifie</span><p class="small">Le <code>gate-check</code> officiel des starters : <code>npm run gate-check -- G2</code>. Il dit ✓ ou ✗ critère par critère, avant le créneau.</p></div>
+    <div class="card s"><span class="k" style="color:var(--sand)">L'humain juge</span><p class="small">Le gate keeper rend GO ou NO-GO avec le critère qui manque. <span class="tip" tabindex="0" data-tip="« Gate keeper » est un terme du hackathon, pas du TOM. Le TOM confie le verdict à une fonction nommée : G1 le Product Manager ; G2 PO, UX, Tech Lead, architecte ; G3 développeurs et QA (CAB en PCI) ; G4 QA et équipes d&#39;exploitation (POE). Au dry run, le gate keeper de l&#39;animation joue cette fonction, pour des dossiers comparables entre squads ; le coach le dit à chaque gate. Pour les 8 h : rendre le verdict à la squad, le gate keeper devenant relecteur.">Il joue la fonction que le TOM nomme</span>. <span class="tip" tabindex="0" data-tip="La machine cherche des mots et des nombres, pas du sens. G1-5 vérifie qu'il y a un nombre, pas qu'un seuil a été décidé. G4-3 cherche « owner » et « rollback » : un runbook plein de « à fixer » passe. Le kit annonce « KPI instrumentés, coût en tokens » en G4 : la machine ne les vérifie pas.">Ce que la machine ne voit pas</span>. Un NO-GO nomme le critère qui manque : le coach de la squad le reprend et la renvoie à l&#39;étape concernée.</p></div>
+    <div class="card"><span class="k">Le coach oriente</span><p class="small"><code>/coach</code> dit où en est la squad et la prochaine étape. Il ne rend pas le verdict officiel : seul le <code>gate-check</code> le fait.</p></div>
+  </div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="sec" id="sdd">
+  <h2><span class="n">4</span>Le SDD avec Spec Kit</h2>
+  <p class="prose"><b>SDD</b> : la spec d'abord, le code ensuite, contre elle. Pour que l'agent travaille sur une intention relue, pas sur une phrase de chat. <b>Spec Kit</b> (version figée 1.2.3) fournit les commandes ; les participants ont appris les étapes sous les noms ci-dessous (<span class="tip" tabindex="0" data-tip="Ces noms viennent de la page de préparation « Préparer votre dry run », pas de la page de départ. <code>/coach</code> et le style de réponse de Claude les utilisent.">page de préparation</span>). Survolez une étape.</p>
+  <figure class="fig">
+    <div class="sv"><svg viewBox="0 0 900 132" role="img" aria-label="Les étapes Spec Kit, de la constitution à Converge">
+      <defs><marker id="a-te" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="ah t" d="M0,0L10,5L0,10z"/></marker></defs>
+      <text class="mu" x="10" y="16" font-size="11" font-weight="700" letter-spacing="1.2">PHASE DESIGN · AVANT G2</text>
+      <text class="mu" x="670" y="16" font-size="11" font-weight="700" letter-spacing="1.2">DEVELOP · AVANT G3</text>
+      <path class="ln t" d="M106,50H118M206,50H218M306,50H318M406,50H418M520,50H532M620,50H666M766,50H778" marker-end="url(#a-te)"/>
+      <g font-size="13" font-weight="700" text-anchor="middle">
+        <g class="tip" tabindex="0" data-tip="<b>Constitution</b> · <code>/speckit-constitution</code><br>Produit : les principes non négociables du projet, tirés des règles du Nexus.<br>Humain relit : chaque principe cite sa source (règle Vélora, SEC-xx, ENG-xx)."><rect class="box" x="10" y="28" width="96" height="44" rx="9"/><text x="58" y="55">Constitution</text><text class="mo mu" x="58" y="90" font-size="10" font-weight="400">constitution</text></g>
+        <g class="tip" tabindex="0" data-tip="<b>Intent</b> · <code>/speckit-specify</code><br>Produit : la spec fonctionnelle, le quoi et le pourquoi, avec ses critères d'acceptance. <code>/coach</code> donne une amorce par squad.<br>Humain relit : elle reprend la Business Intent Spec sans rien inventer.<br>Attention : cette étape « Intent » (Design) n'est pas la Business Intent Spec (Discover), qui en est la source."><rect class="box t" x="122" y="28" width="84" height="44" rx="9"/><text x="164" y="55">Intent</text><text class="mo mu" x="164" y="90" font-size="10" font-weight="400">specify</text></g>
+        <g class="tip" tabindex="0" data-tip="<b>Clarify</b> · <code>/speckit-clarify</code><br>Produit : les questions que la spec laisse ouvertes, et les réponses.<br>Humain : toute la squad répond ; ce qui reste ouvert va à la Direction Revenu Annexe ou à une autre squad."><rect class="box t" x="222" y="28" width="84" height="44" rx="9"/><text x="264" y="55">Clarify</text><text class="mo mu" x="264" y="90" font-size="10" font-weight="400">clarify</text></g>
+        <g class="tip" tabindex="0" data-tip="<b>Design</b> · <code>/speckit-plan</code><br>Produit : le plan technique, le modèle de données, les contrats d'API.<br>Humain relit : le plan colle aux contrats épinglés des autres squads."><rect class="box t" x="322" y="28" width="84" height="44" rx="9"/><text x="364" y="55">Design</text><text class="mo mu" x="364" y="90" font-size="10" font-weight="400">plan</text></g>
+        <g class="tip" tabindex="0" data-tip="<b>Decompose</b> · <code>/speckit-tasks</code><br>Produit : la liste ordonnée des tâches, testables une à une.<br>Humain relit : le périmètre. En 50 minutes de Develop, viser la première user story."><rect class="box t" x="422" y="28" width="98" height="44" rx="9"/><text x="471" y="55">Decompose</text><text class="mo mu" x="471" y="90" font-size="10" font-weight="400">tasks</text></g>
+        <g class="tip" tabindex="0" data-tip="<b>Check</b> · <code>/speckit-analyze</code><br>Produit : la cohérence entre spec, plan, tâches et constitution.<br>Humain : le Decision Guarantor tranche les écarts. Puis taper <code>/coach analyze fait</code>."><rect class="box t" x="536" y="28" width="84" height="44" rx="9"/><text x="578" y="55">Check</text><text class="mo mu" x="578" y="90" font-size="10" font-weight="400">analyze</text></g>
+        <g class="tip" tabindex="0" data-tip="<b>Implement</b> · <code>/speckit-implement</code><br>Produit : le code, tâche par tâche, et ses tests nommés d'après les critères.<br>Humain : revue du code ; en Paiement, signature du code de débit (<code>git commit -s</code>)."><rect class="box t" x="670" y="28" width="96" height="44" rx="9"/><text x="718" y="55">Implement</text><text class="mo mu" x="718" y="90" font-size="10" font-weight="400">implement</text></g>
+        <g class="tip" tabindex="0" data-tip="<b>Converge</b> · <code>/speckit-converge</code>, facultatif.<br>Produit : compare le code à la spec, au plan et aux tâches, et ajoute en tâches ce qui manque.<br>Humain relit : les tâches ajoutées restent dans le périmètre."><rect class="box d" x="782" y="28" width="96" height="44" rx="9"/><text x="830" y="55">Converge</text><text class="mo mu" x="830" y="90" font-size="10" font-weight="400">converge</text></g>
+      </g>
+      <text class="sa" x="10" y="122" font-size="11" font-weight="700">À chaque étape, un humain relit. Entre Check et Implement : G2, contrat v1 publié.</text>
+    </svg></div>
+  </figure>
+  <p class="small prose"><b>Astuce de rythme :</b> <span class="tip" tabindex="0" data-tip="Pendant le test, Design a pris environ 25 échanges. Phrase qui a marché : « Applique tes recommandations sans me les poser une par une, je relis à la fin. » La relecture humaine reste, elle est groupée.">grouper les réponses</span> plutôt que valider question par question.</p>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="sec" id="nexus">
+  <h2><span class="n">5</span>Le Context Nexus</h2>
+  <p class="prose">La <b>mémoire partagée</b> des humains et des agents : chaque agent travaille avec les mêmes règles et les versions actuelles des contrats des autres équipes. Ici, un <span class="tip" tabindex="0" data-tip="Le dépôt <code>context-nexus</code>, cloné à côté du starter dans chaque Codespace. Le Nexus de production démarre le 27/10.">dépôt Git partagé</span>. <b>Règle du jeu :</b> on lit tout, on n'écrit que dans <code>teams/sa-squad/</code>.</p>
+  <div class="chips">
+    <span class="chip tip" tabindex="0" data-tip="<b>Knowledge</b> · ce qu'on sait.<br>Vélora : le brief, le glossaire, les horaires des 5 hôtels pilotes.">Knowledge</span>
+    <span class="chip tip" tabindex="0" data-tip="<b>Purpose</b> (dossier <code>intent/</code>) · ce qu'on veut.<br>Vélora : la Business Intent Spec et la spec publiée de chaque squad.">Purpose</span>
+    <span class="chip tip" tabindex="0" data-tip="<b>Contracts</b> · ce qu'on exige, de façon vérifiable ; les gates s'y appuient.<br>Vélora : <code>regle-prix</code>, <code>offre-api</code>, <code>paiement-api</code>, les règles PCI.">Contracts</span>
+    <span class="chip tip" tabindex="0" data-tip="<b>Process</b> (dossier <code>operations/</code>) · ce qu'on fait.<br>Vélora : runbook, journal des flags, journal des gates.">Process</span>
+    <span class="chip tip" tabindex="0" data-tip="<code>org/</code> (Vélora) → <code>programme/</code> (late check-out) → <code>teams/</code> (la squad). Un niveau précise son parent, jamais ne le contredit sans exception approuvée.<br>Vélora : « l'heure locale de l'hôtel fait foi » est une règle <code>org/</code>.">3 niveaux</span>
+    <span class="chip tip" tabindex="0" data-tip="L'en-tête de chaque fichier : <code>owner</code>, <code>status</code> (draft → active → stale), <code>version</code> (majeure = rupture), <code>last-validated</code>, <code>consumes</code> (ce qu'il lit, version épinglée), <code>consumers</code> (qui le lit).">frontmatter</span>
+  </div>
+  <figure class="fig">
+    <div class="sv"><svg viewBox="0 0 860 205" role="img" aria-label="Épinglage d'une version, puis passage en stale et réalignement">
+      <defs><marker id="a-ro" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="ah r" d="M0,0L10,5L0,10z"/></marker>
+      <marker id="a-te2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="ah t" d="M0,0L10,5L0,10z"/></marker></defs>
+      <text class="mu" x="10" y="20" font-size="11" font-weight="700" letter-spacing="1.2">CONTRAT DE PRIX (publié par Prix)</text>
+      <path class="ln" d="M20,52H840"/>
+      <rect class="box" x="30" y="34" width="150" height="36" rx="8"/><text x="105" y="57" text-anchor="middle" font-size="13" font-weight="700">regle-prix 0.1.0</text>
+      <rect class="box t" x="300" y="34" width="190" height="36" rx="8"/><text x="395" y="57" text-anchor="middle" font-size="13" font-weight="700">1.0.0 · M1, 14h55</text>
+      <rect class="box r" x="620" y="34" width="210" height="36" rx="8"/><text x="725" y="57" text-anchor="middle" font-size="13" font-weight="700">2.0.0 · événement</text>
+      <text class="mu" x="10" y="112" font-size="11" font-weight="700" letter-spacing="1.2">SPEC D'OFFRE (qui consomme ce contrat)</text>
+      <rect class="box t" x="300" y="124" width="190" height="40" rx="8"/><text x="395" y="141" text-anchor="middle" font-size="12" font-weight="700">active</text><text class="mo mu" x="395" y="156" text-anchor="middle" font-size="10">consumes …@1.0.0</text>
+      <g class="tip" tabindex="0" data-tip="<b>stale</b> : une dépendance a changé depuis l'épinglage, l'artefact n'est plus une base sûre (règle Vélora n°7).<br><b>RUPTURE</b> : la version majeure a changé, le contrat ne se lit plus pareil. <b>MISE À JOUR</b> : version mineure, compatible. Les deux bloquent <code>--check</code> tant qu'on n'a pas ré-épinglé."><rect class="box r" x="530" y="124" width="140" height="40" rx="8"/><text class="ro" x="600" y="141" text-anchor="middle" font-size="12" font-weight="700">stale · RUPTURE</text><text class="mo mu" x="600" y="156" text-anchor="middle" font-size="10">1.0.0 → 2.0.0</text></g>
+      <rect class="box t" x="700" y="124" width="140" height="40" rx="8"/><text x="770" y="141" text-anchor="middle" font-size="12" font-weight="700">active</text><text class="mo mu" x="770" y="156" text-anchor="middle" font-size="10">consumes …@2.0.0</text>
+      <path class="ln t d" d="M395,72V120" marker-end="url(#a-te2)"/>
+      <path class="ln r" d="M680,72L620,120" marker-end="url(#a-ro)"/>
+      <path class="ln t" d="M670,144H696" marker-end="url(#a-te2)"/>
+      <text class="mu" x="404" y="98" font-size="10.5">épingle la v1</text>
+      <text class="ro" x="676" y="100" font-size="10.5" font-weight="600">context-assemble le détecte</text>
+      <text class="mu" x="30" y="141" font-size="11">G2-4 et G3-6 restent rouges</text><text class="mu" x="30" y="156" font-size="11">tant qu'une spec est stale.</text>
+      <text class="sa" x="440" y="192" text-anchor="middle" font-size="11" font-weight="600">relire le changement → mettre à jour spec, tâches, code, tests → ré-épingler → republier</text>
+    </svg></div>
+  </figure>
+  <p class="prose"><b>Pourquoi on ne code pas sur un contrat périmé :</b> <span class="tip" tabindex="0" data-tip="1. Le <b>brief assemblé</b> (<code>npm run context</code> → <code>.context/brief.md</code>, importé par <code>CLAUDE.md</code>) signale le changement, et l'agent a pour consigne de ne pas générer de code sur une dépendance <code>stale</code>.<br>2. <code>/coach</code> place « Réagir » avant toute autre étape.<br>3. Le <code>gate-check</code> (G2-4, G3-6) bloque la gate tant que l'épinglage n'est pas à jour.">trois verrous se tiennent</span> : l'agent est prévenu, le coach réoriente, la gate bloque.</p>
+  <div class="card t">
+    <h3>La démo « sans / avec contexte » (13h45)</h3>
+    <p class="small">Même prompt, deux dossiers : vide, puis le starter avec son brief. <span class="tip" tabindex="0" data-tip="Depuis un starter : <code>node ../context-nexus/tools/demo-sans-contexte.mjs --squad squad-3-paiement --run</code> (quelques milliers de tokens).<br>Prompt : « Écris l'endpoint qui encaisse le supplément de late check-out avec la carte bancaire du client. »">Commande et prompt</span>. Sans contexte, l'agent invente <span class="tip" tabindex="0" data-tip="Sans contexte : le prestataire (souvent Stripe), les routes, les noms de champs, les codes d'erreur.<br>Avec contexte : PayVel et son jeton, <code>Idempotency-Key</code>, <code>offerId</code>, <code>amountMinor</code> recalculé côté serveur, erreurs <code>LCO_…</code>, mode « à l'hôtel », signature humaine du code de débit.">ce qui est propre à Vélora</span>. Constaté : un modèle récent ne met plus de numéro de carte dans le code ; l'écart est sur nos décisions.</p>
+    <p class="say">L'IA est bonne en général ; elle ne connaît pas nos décisions.</p>
+  </div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section class="sec" id="velora">
+  <h2><span class="n">6</span>Le cas Vélora</h2>
+  <p class="prose">Groupe hôtelier <b>fictif</b>, 5 hôtels pilotes, données synthétiques. Le brief de la Direction Revenu Annexe tient en trois phrases <b>volontairement floues</b> : les clients veulent partir plus tard, la réception l'accorde au cas par cas, on veut le vendre en ligne. Survolez une squad.</p>
+  <figure class="fig">
+    <div class="sv"><svg viewBox="0 0 760 368" role="img" aria-label="Graphe des contrats entre les quatre squads">
+      <defs>
+        <marker id="g-t" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="ah t" d="M0,0L10,5L0,10z"/></marker>
+        <marker id="g-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="ah r" d="M0,0L10,5L0,10z"/></marker>
+      </defs>
+      <path class="ln r" d="M105,62C105,12 615,12 615,62" marker-end="url(#g-r)"/>
+      <text class="ro" x="360" y="47" text-anchor="middle" font-size="12" font-weight="700">regle-prix · ⚡ 2.0.0 vers 15h50</text>
+      <path class="ln r" d="M190,80H271" marker-end="url(#g-r)"/>
+      <text class="ro" x="232" y="73" text-anchor="middle" font-size="11.5" font-weight="700">regle-prix</text>
+      <path class="ln t" d="M275,104H194" marker-end="url(#g-t)"/>
+      <text class="te" x="232" y="124" text-anchor="middle" font-size="11.5">offre-api</text>
+      <path class="ln t" d="M445,90H526" marker-end="url(#g-t)"/>
+      <text class="te" x="487" y="82" text-anchor="middle" font-size="11.5">offre-api</text>
+      <path class="ln t" d="M345,120V286" marker-end="url(#g-t)"/>
+      <text class="te" x="353" y="206" font-size="11.5">offre-api</text>
+      <path class="ln t" d="M612,120L450,292" marker-end="url(#g-t)"/>
+      <text class="te" x="545" y="212" font-size="11.5">paiement-api</text><text class="te" x="545" y="227" font-size="11.5">contraintes-pci</text>
+      <path class="ln t" d="M275,312L110,122" marker-end="url(#g-t)"/>
+      <text class="te" x="206" y="250" text-anchor="end" font-size="11.5">evenements-achat</text><text class="te" x="206" y="265" text-anchor="end" font-size="11.5">ecrans</text>
+      <g class="tip" tabindex="0" data-tip="<b>Squad 2 · Prix</b> · plancher et plafond du supplément selon l'occupation prévue, et KPI de l'offre (<code>GET /v1/pricing/late-checkout/bounds</code>).<br>Publie <code>regle-prix</code>, <code>kpi</code>. Consomme <code>evenements-achat</code>, <code>offre-api</code>.<br>Porte M1 (14h55). Son contrat est celui que l'événement change."><rect class="box s" x="20" y="62" width="170" height="58" rx="10"/><text x="105" y="88" text-anchor="middle" font-size="15" font-weight="700">2 · Prix</text><text class="sa" x="105" y="106" text-anchor="middle" font-size="11" font-weight="600">porte M1 · 14h55</text></g>
+      <g class="tip" tabindex="0" data-tip="<b>Squad 1 · Offre</b> · éligibilité d'une réservation et prix de chaque créneau (<code>GET /v1/reservations/{id}/late-checkout-offer</code>).<br>Publie <code>offre-api</code>. Consomme <code>regle-prix</code> et les horaires des hôtels.<br>Au centre du graphe : publier sa v1 et un mock tôt."><rect class="box" x="275" y="62" width="170" height="58" rx="10"/><text x="360" y="88" text-anchor="middle" font-size="15" font-weight="700">1 · Offre</text><text class="mu" x="360" y="106" text-anchor="middle" font-size="11">éligibilité et prix</text></g>
+      <g class="tip" tabindex="0" data-tip="<b>Squad 3 · Paiement</b> · encaissement en ligne (PayVel, fictif) ou à l'hôtel (<code>POST /v1/late-checkout/payments</code>).<br>Publie <code>paiement-api</code>, <code>contraintes-pci</code>. Consomme <code>offre-api</code>, <code>regle-prix</code>, la sécurité.<br>Périmètre PCI : sans signature humaine nommée du code de débit, pas de G3."><rect class="box" x="530" y="62" width="170" height="58" rx="10"/><text x="615" y="88" text-anchor="middle" font-size="15" font-weight="700">3 · Paiement</text><text class="mu" x="615" y="106" text-anchor="middle" font-size="11">PCI · signature</text></g>
+      <g class="tip" tabindex="0" data-tip="<b>Squad 4 · Expérience</b> · tuile « Gérer ma réservation », carte de late check-out, événements d'achat (endpoint BFF).<br>Publie <code>ecrans</code>, <code>evenements-achat</code>. Consomme <code>offre-api</code>, <code>paiement-api</code>, les composants Vela DS.<br>Porte M2 (15h05). Pas de PO : le Designer pilote le Discover (test voulu). Pas de fenêtre bonus."><rect class="box s" x="275" y="290" width="170" height="58" rx="10"/><text x="360" y="316" text-anchor="middle" font-size="15" font-weight="700">4 · Expérience</text><text class="sa" x="360" y="334" text-anchor="middle" font-size="11" font-weight="600">porte M2 · 15h05</text></g>
+      <text class="mu" x="740" y="352" text-anchor="end" font-size="10.5">flèche : de la squad qui publie vers celle qui consomme</text>
+    </svg></div>
+  </figure>
+
+  <div class="card r">
+    <h3>L'événement, vers 15h50</h3>
+    <p>« Le plafond du supplément ne sera plus un montant fixe : ce sera un pourcentage du tarif de la nuit de l'hôtel. » <span class="small muted">À lire sans commenter.</span></p>
+    <p class="small"><span class="tip" tabindex="0" data-tip="<code>regle-prix</code> passe en 2.0.0 : <code>ceilingMinor</code> disparaît, remplacé par <code>ceilingPercent</code> (25, 35, 45 selon la tranche). Nouveau référentiel <code>tarifs-nuit-pilotes</code>. Le plafond se calcule chez le consommateur.<br>Exemple : VEL-LYO-02, nuit à 130,00 €, tranche MOYENNE → plafond 45,50 € (contre 45,00 €).">Ce qui change</span> · <span class="tip" tabindex="0" data-tip="Sur l'écran : <code>regle-prix</code> en rouge, Offre et Paiement en ambre, un chrono. Le <code>/coach</code> d'Offre et Paiement annonce qu'un contrat d'une autre squad a changé ; celui de Prix, que son propre contrat a changé sans elle. G3-6 rouge jusqu'au réalignement. Le chrono s'arrête quand les consommateurs ont ré-épinglé et republié.">Ce qu'on observe</span> · <span class="tip" tabindex="0" data-tip="Relire le changement avant de coder, aller voir la squad Prix, mettre à jour spec, critères, tâches et tests, puis le code. Une squad qui corrige le code d'abord a manqué la leçon.">Ce qu'on veut voir</span></p>
+  </div>
+
+  <h3>Les pièges volontaires</h3>
+  <div class="chips">
+    <span class="chip tip" tabindex="0" data-tip="Aucun chiffre dans le brief : la squad doit aller chercher son critère de succès.">Brief flou</span>
+    <span class="chip tip" tabindex="0" data-tip="La Direction Revenu Annexe ne répond qu'à son ambition chiffrée, l'horizon et la priorité, et seulement si on le lui demande. Les faits sont dans le Nexus.">Réponses sur demande</span>
+    <span class="chip tip" tabindex="0" data-tip="Chaque contrat v0 finit par « Ce que la v1 doit encore préciser » : source de l'occupation, comportement si elle manque, remboursement, mock à fournir…">Contrats v0 incomplets</span>
+    <span class="chip tip" tabindex="0" data-tip="Le même montant s'appelle <code>priceMinor</code> (Offre), <code>amountMinor</code> (Paiement), <code>amount_minor</code> (événements), toujours en centimes. Une erreur de champ ou d'unité casse la chaîne.">Noms de champs différents</span>
+    <span class="chip tip" tabindex="0" data-tip="Expérience sans PO, Paiement en périmètre PCI : les écarts sont des données, pas des fautes.">Squads incomplètes</span>
+    <span class="chip tip" tabindex="0" data-tip="Vus pendant le test, non prévus : <code>event_id</code> en uuid dans le contrat mais <code>evt-0001</code> dans les données ; 3,00 € par réservation éligible visés face à des prix de 15 à 60 €. Une squad qui les relève est sur la bonne voie.">Écarts trouvés au test</span>
+  </div>
+
+  <h3>Discover : trois sources, qui doivent se voir</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Source</th><th>Ce qu'elle apporte</th><th>Dans la Business Intent Spec</th></tr></thead>
+    <tbody>
+    <tr><td class="h">Context Nexus</td><td>Les faits, les règles et les décisions déjà prises : brief, règles métier, <span class="tip" tabindex="0" data-tip="<code>programme/late-checkout/knowledge/decisions-deja-prises.md</code> : un Decision Context (registre Knowledge). Prix TTC, bornes validées, hôtel complet, prévision d'occupation (06:00, 14 jours), absente = aucun LCO, remboursement en v2, affichage… et ce qu'on ne sait pas (à confirmer).">decisions-deja-prises.md</span>, contrats. Claude les lit et les cite.</td><td><code>[Nexus : fichier]</code></td></tr>
+    <tr><td class="h">Direction Revenu Annexe</td><td>Son ambition chiffrée, l'horizon, la priorité : des décisions humaines écrites nulle part. Le coach la joue (<a href="#dra">7 réponses</a>).</td><td><code>[Direction Revenu Annexe, date]</code></td></tr>
+    <tr><td class="h">La squad</td><td>Son seuil engagé, l'owner, ce qu'elle ne fait pas. Elle décide et signe.</td><td><code>[Décision de la squad]</code></td></tr>
+    <tr><td class="h">Personne</td><td>Ce qui manque (réservations par jour, taux d'échec des paiements…).</td><td><code>[À confirmer : qui]</code></td></tr>
+    </tbody></table></div>
+</section>
+
+<!-- ============ Direction Revenu Annexe ============ -->
+<section class="sec" id="dra">
+  <h2><span class="n">DRA</span>Je joue la Direction Revenu Annexe</h2>
+  <p class="prose">La cliente du projet, jouée par le coach. Elle ne répond qu'à <b>ce qui est sa décision pour ce projet</b> : son ambition chiffrée, l'horizon, la priorité. Les faits et les décisions déjà prises sont dans le Context Nexus (<code>decisions-deja-prises.md</code>, règles métier, contrats) : renvoyez-y. Les choix de la squad sont à elle. Ne répondez qu'aux questions posées, en annonçant la casquette.</p>
+  <label class="small" for="dra-q"><b>Chercher</b> (seuil, période, priorité, owner…)</label>
+  <input id="dra-q" type="search" autocomplete="off" placeholder="Un mot de la question posée" style="font:inherit;padding:10px 12px;border-radius:10px;border:1px solid var(--teal-b);background:var(--surface);color:var(--ink);max-width:520px">
+  <div class="tw"><table id="dra-t">
+    <thead><tr><th></th><th>Si on demande…</th><th>Réponse</th></tr></thead>
+    <tbody>
+      <tr><td class="small muted">Hors fiche</td><td>Un fait, une règle, une décision déjà prise (prix TTC, hôtel complet, prévision d'occupation, remboursement, affichage…)</td><td>« C'est dans le Context Nexus : <code>decisions-deja-prises.md</code>, les règles métier ou le contrat de la squad concernée. Demandez à Claude de le lire. »</td></tr>
+      <tr><td class="small muted">Hors fiche</td><td>Un choix que la squad doit faire (son seuil engagé, l'owner, ce qu'elle ne fait pas, un choix de conception)</td><td>« C'est à vous de le décider et de le signer : proposez-moi quelque chose. »</td></tr>
+      <tr><td class="small muted">Hors fiche</td><td>Une information que personne n'a</td><td>« Je ne l'ai pas : écrivez-le "à confirmer". »</td></tr>
+      <tr><td class="small muted">Réponse</td><td>Que voulez-vous, au fond ?</td><td>Augmenter le revenu annexe en vendant le late check-out en ligne, après la réservation, sur le site et dans l'app, au lieu de le laisser à la réception au cas par cas.</td></tr>
+      <tr><td class="small muted">Réponse</td><td>Quel succès visez-vous ? Quel chiffre ?</td><td>« Au moins <b>3,00 €</b> de revenu LCO par réservation éligible. »</td></tr>
+      <tr><td class="small muted">Réponse</td><td>Quel taux d'achat (<code>attach_rate</code>) ?</td><td>« <b>8 %</b> des réservations éligibles me conviendraient ; <b>en dessous de 5 %</b>, je ne vois pas l'intérêt. » La squad choisit son seuil et le signe.</td></tr>
+      <tr><td class="small muted">Réponse</td><td>Quel passage de la tuile à l'achat (<code>tile_to_purchase</code>) ?</td><td>« <b>Autour de 12 %</b> me paraît réaliste. »</td></tr>
+      <tr><td class="small muted">Réponse</td><td>Sur quelle période, quel périmètre ?</td><td><b>30 jours</b> après l'activation, sur les <b>5 hôtels pilotes</b>.</td></tr>
+      <tr><td class="small muted">Réponse</td><td>Pourquoi maintenant ? Quelle priorité ?</td><td>Le revenu se perd aujourd'hui à la réception, sans trace : c'est la priorité du trimestre. Hors périmètre : les autres services annexes et les autres hôtels.</td></tr>
+      <tr><td class="small muted">Réponse</td><td>Qui valide ces chiffres ? Qui est owner ?</td><td>« Moi pour l'ambition : citez-moi comme source. L'owner de votre intention, c'est un membre de votre squad. »</td></tr>
+    </tbody></table></div>
+  <p class="small muted" id="dra-none" hidden>Pas dans la fiche : un fait → « c'est dans le Context Nexus » ; un choix → « c'est à vous de décider » ; inconnu → « écrivez-le à confirmer ».</p>
+  <p class="small muted">Source : <code>animation/fiche-direction-revenu-annexe.md</code> (à valider par l'animation).</p>
+</section>
+
+<!-- ============ 7 ============ -->
+<section class="sec" id="outils">
+  <h2><span class="n">7</span>Les outils et la machine</h2>
+  <p class="prose">Ce que vous devez pouvoir expliquer : <b>comment tout tient ensemble</b>. Survolez chaque bloc.</p>
+  <figure class="fig">
+    <div class="sv"><svg viewBox="0 0 880 236" role="img" aria-label="Comment les outils du hackathon tiennent ensemble">
+      <defs>
+        <marker id="m-t" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah t" d="M0,0L10,5L0,10z"/></marker>
+        <marker id="m-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="ah s" d="M0,0L10,5L0,10z"/></marker>
+      </defs>
+      <path class="ln t" d="M170,55H218" marker-end="url(#m-t)"/>
+      <path class="ln t" d="M170,155H218" marker-end="url(#m-t)"/>
+      <path class="ln t" d="M466,112H554" marker-start="url(#m-t)" marker-end="url(#m-t)"/>
+      <text class="te" x="511" y="104" text-anchor="middle" font-size="11">publie / lit</text>
+      <path class="ln t" d="M621,188V150" marker-end="url(#m-t)"/>
+      <path class="ln" d="M686,96L722,64" marker-end="url(#m-t)"/>
+      <path class="ln s" d="M724,172L688,136" marker-end="url(#m-s)"/>
+      <text class="mu" x="712" y="92" font-size="10.5">lit</text>
+      <text class="sa" x="700" y="168" font-size="10.5" text-anchor="end">écrit</text>
+      <g class="tip" tabindex="0" data-tip="<b>Page de départ</b> · <code>jour-j/demarrage.html</code> du kit. Le participant choisit sa squad et suit six étapes : GitHub, Codespace, attente de « Welcome to Codespaces! », connexion à Claude, <code>/bienvenue</code>, vérification."><rect class="box" x="20" y="30" width="150" height="50" rx="10"/><text x="95" y="60" text-anchor="middle" font-size="13" font-weight="700">Page de départ</text></g>
+      <g class="tip" tabindex="0" data-tip="<b>Claude</b> · l'extension dans VS Code en ligne : icône étoile de la barre de gauche, puis <i>New session</i>. Connexion : <code>claude auth login</code>, puis <b>coller dans le terminal le code affiché par la page</b> (l'erreur la plus fréquente). Vérifier : <code>claude auth status --text</code>."><rect class="box" x="20" y="130" width="150" height="50" rx="10"/><text x="95" y="160" text-anchor="middle" font-size="13" font-weight="700">Claude</text></g>
+      <g class="tip" tabindex="0" data-tip="<b>Codespace</b> · un ordinateur en ligne par participant, créé depuis le dépôt starter de la squad (5 à 6 min). Au démarrage, il clone le Nexus à côté et pose le coach. Ne pas recliquer le lien de la squad : cela crée un second Codespace ; le retrouver sur github.com/codespaces."><rect class="box o" x="220" y="16" width="246" height="196" rx="12"/><text class="te" x="343" y="36" text-anchor="middle" font-size="12" font-weight="700">CODESPACE DU PARTICIPANT</text></g>
+      <g class="tip" tabindex="0" data-tip="<b>Starter de la squad</b> · le code (API Fastify en TypeScript), les mocks des contrats des autres squads, les données fictives, Spec Kit, et <code>CLAUDE.md</code> : les règles que suit l'agent. C'est là que tourne <code>npm run gate-check</code>."><rect class="box" x="236" y="48" width="214" height="40" rx="8"/><text x="343" y="73" text-anchor="middle" font-size="12.5" font-weight="700">Starter · code, CLAUDE.md</text></g>
+      <g class="tip" tabindex="0" data-tip="<b>Clone du Nexus</b> · copie locale du dépôt partagé. <code>npm run context</code> y lit tout et écrit le brief de l'agent. On n'y modifie que le dossier de sa squad, puis on publie avec <code>publish.mjs</code>."><rect class="box" x="236" y="96" width="214" height="40" rx="8"/><text x="343" y="121" text-anchor="middle" font-size="12.5" font-weight="700">context-nexus (clone)</text></g>
+      <g class="tip" tabindex="0" data-tip="<b>Le coach</b> (posé automatiquement) · <code>/bienvenue</code> et <code>/coach</code>, le style de réponse « Pourquoi / À relire / Ensuite », un message de début de session, et les garde-fous : l'agent ne bascule jamais un flag, n'écrit que chez sa squad dans le Nexus, n'édite pas le brief. Les commandes sûres passent sans demande de permission."><rect class="box s" x="236" y="144" width="214" height="54" rx="8"/><text x="343" y="167" text-anchor="middle" font-size="12.5" font-weight="700">Coach : /bienvenue, /coach</text><text class="sa" x="343" y="185" text-anchor="middle" font-size="11">garde-fous de l'agent</text></g>
+      <g class="tip" tabindex="0" data-tip="<b>Context Nexus</b> · le dépôt Git partagé sur GitHub. Chaque publication y crée un commit ; chaque squad le récupère avec « Mets à jour le contexte ». C'est la seule chose que partagent les quatre squads."><rect class="box t" x="556" y="78" width="130" height="68" rx="10"/><text x="621" y="106" text-anchor="middle" font-size="13" font-weight="700">Context Nexus</text><text class="mu" x="621" y="124" text-anchor="middle" font-size="11">dépôt Git partagé</text></g>
+      <g class="tip" tabindex="0" data-tip="Les 23 autres Codespaces font la même chose : ils publient dans le même Nexus. <code>publish.mjs</code> réessaie seul quand plusieurs personnes publient au même moment."><rect class="box d" x="556" y="190" width="130" height="38" rx="9"/><text class="mu" x="621" y="214" text-anchor="middle" font-size="11.5">les autres squads</text></g>
+      <g class="tip" tabindex="0" data-tip="<b>Écran commun</b> · <code>node tools/nexus-board.mjs --pull 10</code>, puis http://localhost:4000. Montre le chrono, les gates des 4 squads, les versions des contrats, les écarts d'épinglage, les jalons, le temps de réalignement. Ne montre pas les tests ni le lint : il ne lit que le Nexus."><rect class="box" x="724" y="22" width="140" height="50" rx="10"/><text x="794" y="52" text-anchor="middle" font-size="13" font-weight="700">Écran commun</text></g>
+      <g class="tip" tabindex="0" data-tip="<b>Poste des gate keepers</b> · le même écran avec <code>--keeper --push --port 4001</code>. Cliquer une gate : GO ou NO-GO, nom, motif ; le verdict s'écrit dans le journal de la squad. Bouton « Déclencher » : confirmation dans la page, qui sépare « À lire à voix haute » de « Pour l'animation ». Les écritures ne sont acceptées que depuis la machine qui a lancé l'écran."><rect class="box s" x="724" y="160" width="140" height="50" rx="10"/><text x="794" y="183" text-anchor="middle" font-size="13" font-weight="700">Poste keeper</text><text class="sa" x="794" y="200" text-anchor="middle" font-size="11">verdicts, événement</text></g>
+    </svg></div>
+  </figure>
+
+  <h3>Le parcours d'un participant</h3>
+  <ol class="steps">
+    <li><span class="chip tip" tabindex="0" data-tip="Ouvrir <code>jour-j/demarrage.html</code>, choisir sa squad, se connecter à GitHub.">Page de départ</span></li>
+    <li><span class="chip tip" tabindex="0" data-tip="<i>Create codespace</i>, puis <i>Authorize and continue</i> (accès au Nexus), puis <i>Approuver le dossier</i>. Ne rien changer aux réglages.">Codespace</span></li>
+    <li><span class="chip tip" tabindex="0" data-tip="Attendre « Welcome to Codespaces! » dans le terminal (environ 2 min) avant de taper quoi que ce soit.">Welcome to Codespaces!</span></li>
+    <li><span class="chip tip" tabindex="0" data-tip="<code>claude auth login</code> → <i>Ouvrir</i> → compte fourni sur place → autoriser → <b>copier le code de la page, le coller dans le terminal</b> (« Paste code here »), Entrée.">Connexion Claude</span></li>
+    <li><span class="chip tip" tabindex="0" data-tip="Icône Claude (l'étoile) dans la barre de gauche, <i>New session</i>, puis <code>/bienvenue</code>. Ignorer le panneau d'assistants à droite et fermer les cartes de présentation de Claude.">/bienvenue</span></li>
+    <li><span class="chip tip" tabindex="0" data-tip="À tout moment : où en est la squad, ce qui manque avant la gate, la prochaine étape avec sa commande. Accepte une question : <code>/coach on est prêts pour G2 ?</code> lance le gate-check.">/coach</span></li>
+  </ol>
+
+  <div class="tw"><table>
+    <thead><tr><th>Commande</th><th>Pour quoi faire</th><th>À dire à Claude</th></tr></thead>
+    <tbody>
+    <tr><td><code>npm run context</code></td><td>Réassembler le brief depuis le Nexus</td><td>« Mets à jour le contexte »</td></tr>
+    <tr><td><code>npm run gate-check -- G2</code></td><td>Critères automatiques d'une gate</td><td>« Vérifie qu'on passe la gate »</td></tr>
+    <tr><td><span class="tip" tabindex="0" data-tip="<code>node ../context-nexus/tools/publish.mjs -m &quot;message&quot;</code> : montre ce qui part, ne prend que le dossier de la squad, réessaie seul en cas de publication simultanée, s'arrête sans rien casser en cas de vrai conflit."><code>publish.mjs</code></span></td><td>Publier dans le Nexus</td><td>« Publie mes changements »</td></tr>
+    <tr><td><code>npm run deploy</code></td><td>Déployer en local (G4)</td><td>« Déploie »</td></tr>
+    <tr><td><code>npm run flag</code></td><td>Activer un flag, tracé. <b>Humain seulement</b> : l'agent en est empêché.</td><td>à taper soi-même</td></tr>
+    </tbody></table></div>
+  <p class="small muted">Écran commun dans un Codespace : <span class="tip" tabindex="0" data-tip="À la racine du starter : <code>node ../context-nexus/tools/nexus-board.mjs --pull 10 --keeper --push</code>. Puis l'onglet <b>Ports</b> (en bas) → ligne 4000 → icône globe. Le port reste privé à votre compte GitHub. Testé le 25/10 : les verdicts s'enregistrent par ce lien.">par l'onglet Ports</span>. Après une répétition : <span class="tip" tabindex="0" data-tip="Relancer une fois l'écran avec <code>--reset</code> : il efface l'historique des changements de contrat qu'il a gardé.">--reset</span>.</p>
+</section>
+
+<!-- ============ 8 ============ -->
+<section class="sec" id="role">
+  <h2><span class="n">8</span>Mon rôle</h2>
+  <div class="grid two">
+    <div class="card s"><span class="k" style="color:var(--sand)">Avant tout : créateur du hackathon</span>
+      <p class="small">Je dois pouvoir expliquer à tout le monde :</p>
+      <ul class="l small">
+        <li><b>le pourquoi</b> : le goulot n'est plus le code, c'est le besoin, le contexte et la vérification (section 1) ;</li>
+        <li><b>la règle du jeu</b> : une gate = machine puis humain ; on n'écrit que chez soi ; l'agent propose, l'humain signe ;</li>
+        <li><b>la machine</b> : starter, Nexus, coach, écran (section 7) ;</li>
+        <li><b>la valeur et ses limites</b> : quatre preuves, observées sur un test, sans baseline.</li>
+      </ul>
+      <p class="small">Et répondre aux <span class="tip" tabindex="0" data-tip="Animateur principal : rythme et règles de coupe. Gate keepers : produit, tech (qui arbitre aussi les conflits de contrat), run, data. Greffiers : temps, retours, tokens. Support Zenika : agent, Spec Kit, Codespace, dépôt partagé. Programme et sponsors : dans les squads, et voix de la Direction Revenu Annexe.">autres rôles de l'animation</span> sur le fonctionnement.</p></div>
+    <div class="card"><span class="k">Le jour J : coach d'une squad</span>
+      <ul class="l small">
+        <li>Je reste avec la squad et commente à voix haute chaque go et no-go.</li>
+        <li>Je pose des questions, le clavier reste à la squad.</li>
+        <li>Je ramène les décisions aux humains : « Qui signe ? »</li>
+        <li>Je tiens le temps et les règles de coupe.</li>
+      </ul>
+      <p class="small"><span class="tip" tabindex="0" data-tip="<b>Discover</b> : « Comment saurez-vous dans 30 jours que ça a marché ? Qui a fixé ce seuil ? »<br><b>Design</b> : « Quelle version du contrat avez-vous épinglée ? » · « Qu'avez-vous laissé ouvert à Clarify ? »<br><b>Develop</b> : « Ce test couvre quel critère ? »<br><b>Événement</b> : « Qu'est-ce qui change pour vous ? La spec avant le code ? »<br><b>Deploy</b> : « Qui a activé le flag, et pourquoi ? Comment revient-on en arrière ? »">Mes questions, phase par phase</span></p></div>
+  </div>
+
+  <h3>Incidents et réflexes</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Symptôme</th><th>Réflexe</th></tr></thead>
+    <tbody>
+    <tr><td>« Not logged in » après autorisation</td><td>Le code n'a pas été collé dans le terminal. Page expirée : Ctrl + C, relancer <code>claude auth login</code>.</td></tr>
+    <tr><td>L'agent ignore le volet, <code>/bienvenue</code> absent</td><td><code>npm run context</code>, nouvelle session Claude, <code>/bienvenue</code>.</td></tr>
+    <tr><td>L'agent affirme un état faux</td><td>Se fier à <code>/coach</code> et au <code>gate-check</code> ; nouvelle session après « Mets à jour le contexte ».</td></tr>
+    <tr><td>Lint en échec sur <code>context-nexus/</code></td><td><span class="tip" tabindex="0" data-tip="Le starter n'a pas reçu le correctif : ajouter <code>context-nexus</code> aux <code>ignores</code> d'<code>eslint.config.js</code>. Sans lui, G3-1 échoue pour tous.">Correctif eslint</span>, prévenir le support.</td></tr>
+    <tr><td>Conflit sur <code>regle-prix.md</code> après l'événement</td><td><span class="tip" tabindex="0" data-tip="La squad Prix fait <code>git pull --rebase</code> et garde sa version en y ajoutant la section « Changement 2.0.0 ». Sinon, elle publie elle-même la v2 à partir de la carte de l'événement.">Prix garde sa version + la section 2.0.0</span>.</td></tr>
+    <tr><td>Les squads ne voient pas un verdict</td><td>Le poste keeper n'a pas publié : <code>git push</code> dans son Nexus.</td></tr>
+    <tr><td>Bloqué plus de 5 minutes</td><td>Main levée : support Zenika.</td></tr>
+    </tbody></table></div>
+  <div class="card r"><span class="k" style="color:var(--rose)">Ne pas faire</span><p class="small">Taper à la place de la squad · activer un flag pour elle · répondre avant la question · signer par gentillesse · toucher au fichier d'une autre squad · annoncer ou commenter l'événement · parler de vitesse sans qualité · juger une personne (on juge le format et le TOM).</p></div>
+</section>
+
+<!-- ============ 9 ============ -->
+<section class="sec" id="glossaire">
+  <h2><span class="n">9</span>Glossaire</h2>
+  <p class="small muted">Vocabulaire du TOM V1.0 ; survolez un terme. Détail : <code>commun/vocabulaire-tom.md</code>.</p>
+  <div class="chips">
+    <span class="chip tip" tabindex="0" data-tip="Le cycle de vie produit du TOM : Discover, Design, Develop, Deploy, Deepen, Drop.">PDLC</span>
+    <span class="chip tip" tabindex="0" data-tip="Point de passage entre deux phases : contrôle automatique, puis décision humaine. G1 Ready to Spec · G2 Ready to Build · G3 Ready to Release · G4 Released and Observable · G5 Opportunity or Retire · G6 Retirement Scoped.">Gate</span>
+    <span class="chip tip" tabindex="0" data-tip="Le profil (produit, tech, run, data) qui rend le verdict d'une gate.">Gate keeper</span>
+    <span class="chip tip" tabindex="0" data-tip="Le livrable de chaque phase : Business Intent Spec, Solution Design Spec, Code + Test Specs, Runtime Specs, Opportunity Spec, Retirement Spec.">Spec</span>
+    <span class="chip tip" tabindex="0" data-tip="Spec-Driven Development : la spec d'abord, le code ensuite, contre elle.">SDD</span>
+    <span class="chip tip" tabindex="0" data-tip="Le contexte partagé des humains et des agents, en quatre registres : Knowledge, Purpose, Contracts, Process.">Context Nexus</span>
+    <span class="chip tip" tabindex="0" data-tip="La vie d'une spec : brouillon ; validée par un humain ; périmée parce qu'une dépendance a changé. Puis deprecated ou superseded.">draft · active · stale</span>
+    <span class="chip tip" tabindex="0" data-tip="Noter dans <code>consumes</code> la version exacte d'un contrat qu'on utilise (…@1.0.0).">Épingler</span>
+    <span class="chip tip" tabindex="0" data-tip="Ce qui construit le contexte de l'agent ; ici le script <code>context-assemble</code>, lancé par <code>npm run context</code>.">Context Assembler</span>
+    <span class="chip tip" tabindex="0" data-tip="Déployer et activer sont deux décisions, toutes deux tracées.">Release ≠ Activation</span>
+    <span class="chip tip" tabindex="0" data-tip="Qui tient le verdict : Human, AI-assisted, AI-executed, AI-autonomous. Le pilote est en AI-assisted : l'IA propose, une personne tranche. Jamais délégués : la valeur et la priorité, l'architecture, les approbations PCI, l'activation des flags critiques, l'arbitrage valeur-coût-risque, le retrait.">Niveaux de délégation</span>
+    <span class="chip tip" tabindex="0" data-tip="<b>Context Engineer</b> : le contexte des agents. <b>Specification Engineer</b> : la plume de la spec et du contrat. <b>Agentic Workflow Orchestrator</b> : règle et lance les agents, surveille les tokens. <b>Decision Guarantor</b> : signe chaque gate, tranche.">Les 4 responsabilités</span>
+    <span class="chip tip" tabindex="0" data-tip="Joués par l'animation : Evaluation Engineer (grilles, gate-check), Convergence Arbitrator (conflit de contrat), AgentOps (support), AI FinOps Lead (tokens).">Responsabilités de l'animation</span>
+    <span class="chip tip" tabindex="0" data-tip="Owner : répond du livrable et signe. Co-owner : le porte à plusieurs. Contributeur : en produit une partie. Relecteur : le challenge avant la gate.">Owner · relecteur</span>
+    <span class="chip tip" tabindex="0" data-tip="Hors TOM. Contrats publiés tôt (M1 <code>regle-prix</code>, M2 <code>evenements-achat</code>) pour que tout le monde épingle la bonne version avant G2.">Jalon M1, M2</span>
+    <span class="chip tip" tabindex="0" data-tip="Hors TOM. Squad : équipe de six. Volet : la partie du sujet qu'elle construit. LCO : late check-out.">Squad, volet, LCO</span>
+  </div>
+  <h3>Pas encore testé (à surveiller demain)</h3>
+  <div class="chips">
+    <span class="chip tip" tabindex="0" data-tip="Gate-check et gabarits existent ; aucune squad ne les a jouées.">G5 et G6</span>
+    <span class="chip tip" tabindex="0" data-tip="Le test en a simulé trois depuis un clone.">4 squads réelles</span>
+    <span class="chip tip" tabindex="0" data-tip="Temps de création réel inconnu quand 24 personnes lancent en même temps (5 à 6 min pour un seul).">24 Codespaces</span>
+    <span class="chip tip" tabindex="0" data-tip="Le test a utilisé un compte Claude Team.">Comptes fournis sur place</span>
+    <span class="chip tip" tabindex="0" data-tip="Signature du code de débit (G3-7) et contrainte PCI jamais jouées en Codespace.">Squad Paiement</span>
+    <span class="chip tip" tabindex="0" data-tip="On sait l'ignorer, pas encore le masquer par défaut.">Panneau d'assistants à droite</span>
+  </div>
+</section>
+
+<!-- ============ Aide-mémoire ============ -->
+<section class="sec" id="memo">
+  <h2><span class="n">✓</span>Aide-mémoire</h2>
+  <div class="memo">
+    <div class="card"><h4>Créneaux de gate</h4>
+      <div style="overflow-x:auto"><table class="slots"><thead><tr><th>Squad</th><th>G1</th><th>G2</th><th>G3</th><th>G4</th></tr></thead><tbody>
+      <tr><td>1 Offre</td><td>14h25</td><td>15h10</td><td>16h10</td><td>16h35</td></tr>
+      <tr><td>2 Prix</td><td>14h30</td><td>15h15</td><td>16h15</td><td>16h40</td></tr>
+      <tr><td>3 Paiement</td><td>14h35</td><td>15h20</td><td>16h20</td><td>16h45</td></tr>
+      <tr><td>4 Expérience</td><td>14h40</td><td>15h25</td><td>16h25</td><td>16h50</td></tr></tbody></table></div></div>
+    <div class="card"><h4>Repères</h4><ul>
+      <li>13h45 démo sans / avec contexte</li>
+      <li><b>14h55 M1</b> regle-prix v1 · <b>15h05 M2</b> evenements-achat v1</li>
+      <li><b>≈ 15h50 événement</b></li>
+      <li>Coupe : G2 + 10 min → Develop guidé ; G4 à 16h55 → démo</li>
+      <li>16h55 débrief</li></ul></div>
+    <div class="card"><h4>L'événement</h4><p>« Le plafond du supplément ne sera plus un montant fixe : ce sera un pourcentage du tarif de la nuit de l'hôtel. »</p><p class="small muted">Lire sans commenter. Attendu : spec avant code, ré-épingler, republier.</p></div>
+    <div class="card"><h4>Commandes</h4><ul>
+      <li><code>/bienvenue</code> · <code>/coach</code> · <code>npm run context</code></li>
+      <li><code>npm run gate-check -- G2</code> · <code>publish.mjs</code></li>
+      <li><code>npm run flag</code> : humain seulement</li>
+      <li>Écran : <code>nexus-board.mjs --pull 10</code> (+ <code>--keeper --push</code>)</li></ul></div>
+    <div class="card"><h4>Valeurs et preuves</h4><ul>
+      <li>Qualité : ambiguïtés trouvées avant le code</li>
+      <li>Vitesse + qualité : 7 min 03 et G3 vert</li>
+      <li>Alignement : G2 rouge tout seul</li>
+      <li>Maîtrise : l'agent propose, l'humain signe</li></ul></div>
+    <div class="card"><h4>Questions clés</h4><ul>
+      <li>Qui l'a décidé ? Qui signe ?</li>
+      <li>Quelle version avez-vous épinglée ?</li>
+      <li>Ce test couvre quel critère ?</li>
+      <li>Qu'est-ce qui change pour vous ?</li></ul></div>
+  </div>
+</section>
+
+<p class="foot">Sources vérifiées : <code>hackathon.config.json</code>, <code>gate-check.mjs</code> des starters, outils du Nexus (<code>status</code>, <code>nexus-board</code>, <code>event</code>, overlay du coach), KIT.md des quatre squads, <code>animation/</code>, page « Préparer votre dry run », deck du dry run, TOM V1.0, rapport du test du 25/10.</p>
+</div>
+
+<div class="tipbox" id="tipbox" role="tooltip" hidden></div>
+<script>
+(function () {
+  var box = document.getElementById('tipbox'), cur = null;
+  function place(el) {
+    var r = el.getBoundingClientRect(), m = 10;
+    box.style.left = '0px'; box.style.top = '0px';
+    var w = box.offsetWidth, h = box.offsetHeight;
+    var left = Math.min(Math.max(m, r.left + r.width / 2 - w / 2), window.innerWidth - w - m);
+    var top = r.bottom + 8;
+    if (top + h > window.innerHeight - m) top = Math.max(m, r.top - h - 8);
+    box.style.left = left + 'px'; box.style.top = top + 'px';
+  }
+  function show(el) { cur = el; box.innerHTML = el.getAttribute('data-tip'); box.hidden = false; place(el); }
+  function hide() { cur = null; box.hidden = true; }
+  document.addEventListener('mouseover', function (e) {
+    var el = e.target.closest('[data-tip]');
+    if (el) { if (el !== cur) show(el); } else if (cur) hide();
+  });
+  document.addEventListener('focusin', function (e) { var el = e.target.closest('[data-tip]'); if (el) show(el); });
+  document.addEventListener('focusout', hide);
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest('[data-tip]');
+    if (!el) { hide(); return; }
+    if (el === cur && e.pointerType && e.pointerType !== 'mouse') hide(); else show(el);
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hide(); });
+  window.addEventListener('scroll', function () { if (cur) place(cur); }, { passive: true });
+
+  var dq = document.getElementById('dra-q');
+  if (dq) {
+    var norm = function (t) { return t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); };
+    var trs = Array.prototype.slice.call(document.querySelectorAll('#dra-t tbody tr'));
+    dq.addEventListener('input', function () {
+      var words = norm(dq.value).split(/\s+/).filter(Boolean), n = 0;
+      trs.forEach(function (tr) { var ok = words.every(function (w) { return norm(tr.textContent).indexOf(w) >= 0; }); tr.hidden = !ok; if (ok) n++; });
+      document.getElementById('dra-none').hidden = n > 0;
+    });
+  }
+  var links = Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var secs = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  function spy() {
+    var y = window.scrollY + 90, i0 = 0;
+    secs.forEach(function (s, i) { if (s && s.offsetTop <= y) i0 = i; });
+    links.forEach(function (a, i) { a.classList.toggle('on', i === i0); });
+  }
+  window.addEventListener('scroll', spy, { passive: true }); spy();
+})();
+</script>
+</body>
+</html>

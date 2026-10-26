@@ -6,18 +6,18 @@
 ## Démarrer en 5 étapes
 
 1. **Avant le 23/10** : cette fiche lue, votre chapeau repéré ci-dessous, et votre façon d'être prêt choisie (`commun/03-prerequis-poste.md`) : **Codespace** (un compte GitHub, rien à installer) ou **installation en une ligne** sur votre poste. Deux postes prêts par squad suffisent.
-2. **À 12 h 30** : en Codespace, cliquer sur le lien Codespace de votre squad (`starter-squad-1-offre`, dans la fiche de démarrage), puis `claude auth login` avec votre compte Claude (pas à pas : `commun/fiche-demarrage.md`, voie A) . Sur votre poste : relancer le script d'installation avec votre squad (il clone `context-nexus` et `starter-squad-1-offre` dans `~/hackathon/`) :
+2. **À 12 h 30** : en Codespace, cliquer sur le lien Codespace de votre squad (`starter-squad-1-offre`, dans la fiche de démarrage), puis `claude auth login` avec le compte Claude fourni sur place (pas à pas : `commun/fiche-demarrage.md`, voie A) . Sur votre poste : relancer le script d'installation avec votre squad (il clone `context-nexus` et `starter-squad-1-offre` dans `~/hackathon/`) :
    - Windows : `$env:SQUAD = "squad-1-offre"; irm https://raw.githubusercontent.com/zenika-dev/ai4d-hackathon-kit/main/installation/installer-prerequis.ps1 | iex`
    - macOS : `curl -fsSL https://raw.githubusercontent.com/zenika-dev/ai4d-hackathon-kit/main/installation/installer-prerequis.sh | bash -s -- squad-1-offre`
 
-   puis `claude auth login` avec votre compte Claude.
+   puis `claude auth login` avec le compte Claude fourni sur place.
 3. **Assembler votre contexte** (déjà fait par le Codespace ou par le script ; à relancer au début de chaque bloc) :
    ```bash
    cd ~/hackathon/starter-squad-1-offre     # dans un Codespace, vous y êtes déjà
    node ../context-nexus/tools/context-assemble.mjs --squad squad-1-offre --out .context/brief.md
    ```
 4. **Vérifier l'agent** : dans `starter-squad-1-offre`, lancer `claude` et demander « Résume .context/brief.md : notre volet, les contrats que nous publions et ceux que nous consommons ». Taper `/speckit` pour voir les commandes.
-5. **À 14h00, Discover** : le Context Engineer lit les contrats voisins, le Specification Engineer copie `gabarits/business-intent.md` dans `teams/squad-1-offre/intent/` et tient la plume.
+5. **À 14h00, Discover** : le Context Engineer lit les contrats des autres squads, le Specification Engineer copie `gabarits/business-intent.md` dans `teams/squad-1-offre/intent/` et tient la plume.
 
 ## Travailler à quatre
 
@@ -61,10 +61,10 @@ Squad 1 : vos horaires servent de référence ; les squads 2, 3 et 4 sont décal
 | Horaire | Relatif | Bloc |
 |---|---|---|
 | 13h30 – 14h00 | 0:00 – 0:30 | Cadrage commun : accueil, règles, brief Vélora, volets, chapeaux |
-| 14h00 – 14h30 | 0:30 – 1:00 | **Discover** : lire le contexte des voisines, besoin à 5 champs, données, priorité |
+| 14h00 – 14h30 | 0:30 – 1:00 | **Discover** : lire le contexte des autres squads, besoin à 5 champs, données, priorité |
 | 14h30 – 15h15 | 1:00 – 1:45 | **Design** : constitution → spec → plan → tâches → analyze, contrat v1 publié |
 | 15h15 – 15h25 | 1:45 – 1:55 | Pause |
-| 15h25 – 16h15 | 1:55 – 2:45 | **Develop** : `/speckit-implement` tâche par tâche · ⚡ un contrat voisin change pendant ce bloc |
+| 15h25 – 16h15 | 1:55 – 2:45 | **Develop** : `/speckit-implement` tâche par tâche · ⚡ un contrat d'une autre squad change pendant ce bloc |
 | 16h15 – 16h40 | 2:45 – 3:10 | **Deploy** : déploiement, bascule de flag tracée, KPI et événements publiés |
 | 16h40 – 16h55 | 3:10 – 3:25 | **Bonus** (15 min) : Deepen (G5) et Drop (G6), version courte, si le temps le permet |
 | 16h55 – 17h30 | 3:25 – 4:00 | Débrief commun : préparation de la démo (10'), démos croisées (5'), rétro du TOM (10'), retour pour le 8 h (10') |
@@ -98,7 +98,20 @@ Le Context Nexus est un dépôt partagé : vous lisez tout, vous n'écrivez que 
 | `teams/squad-2-prix/contracts/regle-prix.md` | 0.1.0 | Prix | Bornes de prix |
 | `programme/late-checkout/knowledge/hotels-pilotes.md` | 1.0.0 | commun | Horaires de départ par hôtel |
 
-Un écart entre votre contrat et celui d'une voisine se règle **en allant la voir**, pas en modifiant son fichier. Si vous n'y arrivez pas : gate keeper tech (Convergence Arbitrator).
+Un écart entre votre contrat et celui d'une autre squad se règle **en allant la voir**, pas en modifiant son fichier. Si vous n'y arrivez pas : gate keeper tech (Convergence Arbitrator).
+
+## Ordre de publication · deux contrats-ancres
+
+Les contrats se consomment en chaîne : Prix, puis Offre, puis Paiement, puis Expérience, avec les KPI de Prix en bout de chaîne. Pour que chaque squad puisse épingler la **version actuelle** des contrats qu'elle utilise avant son G2, deux petits contrats sont publiés **tôt**, avant le reste :
+
+| Jalon | Qui publie | Quoi | Avant |
+|---|---|---|---|
+| M1 | Prix | `regle-prix` v1 (bornes et prix d'un créneau) | 14h55 |
+| M2 | Expérience | `evenements-achat` v1 | 15h05 |
+
+Publiez d'abord une v1 courte et claire ; un ajustement ultérieur passe en 1.1.0, annoncé aux squads qui consomment votre contrat. Les jalons s'affichent sur l'écran commun de la salle.
+
+**Pour vous** : vous attendez M1 pour épingler `regle-prix`. Si elle n'est pas publiée à 14h55, allez voir la squad Prix.
 
 ## À lire en premier (Discover)
 
@@ -118,7 +131,7 @@ Source : teams/squad-1-offre/intent/business-intent.md. Critères d'acceptance v
 chacun rattaché à une règle RM-xx ou à un contract (API-xx, SEC-xx, A11Y-xx, ENG-xx).
 ```
 
-Questions utiles pour `/speckit-clarify` et pour vos échanges avec les voisines :
+Questions utiles pour `/speckit-clarify` et pour vos échanges avec les autres squads :
 
 - Que répond l'API quand une donnée nécessaire au calcul manque ?
 - Quelle heure fait foi pour « la veille 22:00 » : serveur, client ou hôtel ?
@@ -130,7 +143,7 @@ Questions utiles pour `/speckit-clarify` et pour vos échanges avec les voisines
 | Gate | Livrable | Où dans le Nexus | Vérifié par gate-check | Jugé par le gate keeper |
 |---|---|---|---|---|
 | **G1** 14h25 | Business Intent Spec | `teams/squad-1-offre/intent/business-intent.md` | 5 champs complets, contexte daté et sourcé | Critère de succès chiffré, données, priorité avec owner |
-| **G2** 15h10 | Solution Design Spec | spec publiée dans `intent/specs/` + contrat v1 dans `contracts/` | Critères évaluables, versions épinglées, contrat d'API valide face aux voisines | NFR chiffrés, DoR, spec « active » avec owner |
+| **G2** 15h10 | Solution Design Spec | spec publiée dans `intent/specs/` + contrat v1 dans `contracts/` | Critères évaluables, versions épinglées, contrat d'API valide face aux autres squads | NFR chiffrés, DoR, spec « active » avec owner |
 | **G3** 16h10 | Code et Test Specs | code et tests dans le starter, spec `active` (pas `stale`) | Lint, tests, couverture, sécurité, spec mise à jour | Revue nommée, criticité, signature humaine en PCI, plan de flags |
 | **G4** 16h35 | Runtime Specs | `operations/runbook.md` + `operations/flags-journal.md` | Flag tracé, observabilité, KPI instrumentés, coût en tokens | Owner d'exploitation, runbook, rollback |
 | **G5** bonus | Opportunity Spec | `intent/opportunity.md` | Résultats lus sur 30 jours, coût IA compris | Verdict parmi trois, face à la promesse du G1 |

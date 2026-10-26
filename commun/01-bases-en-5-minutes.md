@@ -17,7 +17,7 @@ Vous vivez ici le déroulé que vous retrouverez aux hackathons de 8 h (29/10, 0
 | Phase | Gate | On sort avec | Keeper |
 |---|---|---|---|
 | Discover | **G1** Ready to Spec | Business Intent Spec : besoin à 5 champs, critère de succès chiffré | produit |
-| Design | **G2** Ready to Build | Spec, plan, tâches, **contrat v1 publié** et aligné avec les voisines | tech |
+| Design | **G2** Ready to Build | Spec, plan, tâches, **contrat v1 publié** et aligné avec les autres squads | tech |
 | Develop | **G3** Ready to Release | Code, tests, spec à jour (`active`, pas `stale`) | tech |
 | Deploy | **G4** Released and Observable | Flag tracé, KPI instrumentés, runbook, rollback | run |
 | Deepen | **G5** Opportunity or Retire · *bonus* | Verdict sur 30 jours de télémétrie | data |
@@ -26,7 +26,7 @@ Vous vivez ici le déroulé que vous retrouverez aux hackathons de 8 h (29/10, 0
 Une gate, c'est un créneau de 5 minutes avec un gate keeper, en présence de votre coach qui commente à voix haute
 le go ou le no-go. Avant le créneau, la squad lance le **gate-check** automatique. Un no-go renvoie vers l'étape et nomme le critère qui manque.
 
-**Pas de piège caché.** Un seul événement est scripté : **un contrat voisin change pendant le Develop.**
+**Pas de piège caché.** Un seul événement est scripté : **un contrat d'une autre squad change pendant le Develop.**
 
 ## 3. Spec Kit en 7 commandes
 
@@ -53,9 +53,9 @@ Le Context Nexus est le contexte **partagé** que lisent les humains et les agen
 | Registre | Question | Exemple dans le dry run |
 |---|---|---|
 | **Knowledge** | Ce qu'on sait | Brief, glossaire, horaires des hôtels pilotes |
-| **Intent** | Ce qu'on veut | Votre Business Intent Spec, vos specs Spec Kit |
+| **Purpose** (dossier `intent/`) | Ce qu'on veut | Votre Business Intent Spec, vos specs Spec Kit |
 | **Contracts** | Ce qu'on exige (vérifiable) | Contrats d'API, règle de prix, règles PCI |
-| **Operations** | Ce qu'on fait | Runbook, journal de flags |
+| **Process** (dossier `operations/`) | Ce qu'on fait | Runbook, journal de flags |
 
 Trois niveaux hérités : `org/` (Vélora) → `programme/` (late check-out) → `teams/<votre-squad>/`.
 Un niveau peut **étendre** son parent, jamais le contredire sans exception déclarée et approuvée.
@@ -64,7 +64,7 @@ Chaque fichier a un **statut** : `draft` → `active` → `stale` (une dépendan
 Et chaque dépendance est **épinglée** : `consumes: [teams/squad-2-prix/contracts/regle-prix.md@0.1.0]`.
 
 Le **Context Assembler** (ici le script `context-assemble`) construit, pour votre tâche, le paquet de contexte
-que reçoit l'agent : règles, contrats, specs, contrats des voisines en version épinglée. Il détecte aussi ce qui est devenu `stale`.
+que reçoit l'agent : règles, contrats, specs, contrats des autres squads en version épinglée. Il détecte aussi ce qui est devenu `stale`.
 
 Pendant le dry run, le Nexus est simulé par un dépôt Git partagé. Le Nexus de production démarre le 27/10.
 
@@ -74,7 +74,7 @@ Quatre chapeaux joués en squad, un par champion, répartis au cadrage (0:00 à 
 
 | Chapeau | Ce qu'il fait au dry run | Profil proposé |
 |---|---|---|
-| **Context Engineer** | Lit les contrats voisins, publie celui de la squad, tient `context-assemble` et les épinglages à jour | profil data, Scrum Master ou UX |
+| **Context Engineer** | Lit les contrats des autres squads, publie celui de la squad, tient `context-assemble` et les épinglages à jour | profil data, Scrum Master ou UX |
 | **Specification Engineer** | Écrit la spec, le plan et le contrat | PO (le designer en squad 4) |
 | **Agentic Workflow Orchestrator** | Règle et lance les agents sur les tâches, surveille le budget de tokens | architecte ou développeur |
 | **Decision Guarantor** | Signe chaque gate, tranche les exceptions (dont la signature PCI) | Tech Lead (un architecte en squad 4) |
@@ -99,7 +99,7 @@ Rien à rédiger. Lecture par squad, jamais par individu.
 ## 7. Les 5 règles du jeu
 
 1. On lit le contexte des autres **avant** d'écrire le sien.
-2. On n'écrit que dans le dossier de sa squad. Un désaccord sur le contrat d'une voisine se règle en allant la voir.
+2. On n'écrit que dans le dossier de sa squad. Un désaccord sur le contrat d'une autre squad se règle en allant la voir.
 3. On publie tôt : un contrat v1 imparfait publié vaut mieux qu'un contrat parfait gardé pour soi.
 4. Un contrat va changer pendant le Develop. C'est voulu : c'est le moment où le Nexus montre son intérêt.
 5. Bloqué plus de 5 minutes sur l'outillage : on lève la main.

@@ -20,12 +20,12 @@ Toutes les commandes et tous les liens de cette fiche sont **déjà remplis pour
 |           | [Voie A · Codespace](#voie-a) ⭐ **recommandée**                     | [Voie B · votre poste](#voie-b)                         |
 | --------- | ------------------------------------------------------------------- | ------------------------------------------------------- |
 | Pour qui  | **Vous n'êtes pas développeur** (PO, designer, Scrum Master, data…) | Vous êtes à l'aise avec un terminal                     |
-| Il faut   | Un navigateur, un compte GitHub et votre compte Claude              | Coller une ligne avant le 23/10, et votre compte Claude |
+| Il faut   | Un navigateur et un compte GitHub (le compte Claude est fourni sur place) | Coller une ligne avant le 23/10 (le compte Claude est fourni sur place) |
 | Le jour J | Un lien, quelques clics, prêt en 10 minutes environ                 | La même ligne relancée, puis `claude`                   |
 
 **Pour tout le monde, avant le 23/10 :**
 - Créez un compte sur [github.com/signup](https://github.com/signup) si vous n'en avez pas, et envoyez votre **identifiant GitHub** au support.
-- Vérifiez que vous pouvez vous connecter à [claude.ai](https://claude.ai) avec votre **compte Claude** (abonnement fourni par l'entreprise).
+- Le **compte Claude** est fourni lundi, sur place, par l'équipe Programme AI4D : rien à créer ni à vérifier d'ici là.
 
 <a id="voie-a"></a>
 
@@ -50,29 +50,29 @@ Vous ne savez pas dans quelle squad vous êtes ? Regardez le tableau de la secti
 
 1. **Cliquez sur le lien de votre squad**, dans le tableau ci-dessus.
 2. La page « Create codespace » s'affiche, avec un cadre de trois réglages : **Branch** (`main`), **Region** et **Machine type**. **Ne changez rien.**
-   Aucune clé n'est demandée : vous vous connecterez avec votre compte Claude à l'étape 8.
+   Aucune clé n'est demandée : vous vous connecterez avec le compte Claude fourni sur place à l'étape 8.
    Cliquez sur le bouton vert **Create codespace**, en bas à droite du cadre.
 3. Une page **« This codespace is requesting additional permissions »** s'affiche : GitHub demande l'accès au contexte partagé (`zenika-dev/ai4d-hackathon-context-nexus`), pour que vous puissiez y publier votre travail.
    Cliquez sur le bouton vert **Authorize and continue**. (Évitez « Continue without authorizing » : vous ne pourriez pas publier dans le contexte partagé.)
 4. **Patientez 2 à 4 minutes** : un éditeur s'ouvre dans l'onglet.
 5. Une fenêtre **« Faites-vous confiance aux auteurs des fichiers de ce dossier ? »** s'affiche au milieu de l'écran (« Do you trust the authors… » si votre navigateur est en anglais).
    Cliquez sur le bouton vert **Approuver le dossier et continuer** : c'est votre dépôt de squad, vous pouvez lui faire confiance. Sans cela, le terminal ne se lance pas.
-6. **Patientez encore 5 à 7 minutes** : en bas, le terminal affiche l'installation des outils. C'est l'étape la plus longue, c'est normal.
-   Ne fermez pas l'onglet et ne tapez rien tant que le terminal n'a pas écrit **« ✓ Codespace prêt »** : c'est ce message qui indique que tout est installé.
+6. **Patientez environ 2 minutes** : en bas, le terminal affiche l'installation des outils. C'est l'étape la plus longue, c'est normal.
+   Ne fermez pas l'onglet et ne tapez rien tant que le terminal n'a pas écrit **« Welcome to Codespaces! »** : c'est ce message qui indique que tout est installé.
 7. **Vérifiez vos fichiers** : dans l'explorateur, à gauche, vous voyez le dépôt de votre squad (`src`, `test`, `CLAUDE.md`…) et, **à la racine, le dossier `context-nexus`** (le contexte partagé).
    Vous pouvez y lire et y copier-coller des fichiers. S'il n'apparaît pas, prévenez le support.
 8. **Connectez Claude à votre compte** (une seule fois) : dans le terminal en bas, tapez `claude auth login` puis Entrée.
-   - Un lien s'affiche : ouvrez-le (Ctrl + clic, ou Cmd + clic sur Mac), connectez-vous avec votre compte Claude habituel, cliquez sur **Autoriser**.
+   - Un lien s'affiche : ouvrez-le (Ctrl + clic, ou Cmd + clic sur Mac), connectez-vous avec les identifiants du compte Claude fourni sur place, cliquez sur **Autoriser**.
    - Si la page affiche un **code**, copiez-le, revenez dans le terminal, collez-le, Entrée.
-9. **Parlez à l'agent** : icône Claude dans la barre de gauche. Écrivez-lui :
-   > Résume .context/brief.md : notre volet, les contrats que nous publions et ceux que nous consommons.
+9. **Parlez à l'agent** : icône Claude dans la barre de gauche, ou `claude` dans le terminal (répondez **Oui** à la confiance du dossier). Tapez :
+   > /bienvenue
 
-   S'il cite votre volet et les contrats des autres squads, vous êtes prêt.
+   L'accueil vérifie votre environnement et donne votre premier pas. S'il cite votre volet et les contrats des autres squads, vous êtes prêt. Ensuite, `/coach` répond à « où en est-on et que fait-on ensuite ? ».
 
 **Bon à savoir**
 - Onglet fermé ? Votre Codespace vous attend sur [github.com/codespaces](https://github.com/codespaces). Ne recliquez **pas** sur le lien de votre squad : cela en créerait un deuxième, sans votre travail non publié.
 - Après 30 minutes sans activité, il se met en veille ; rouvrez-le, il redémarre en quelques secondes, toujours connecté.
-- Le Codespace est **personnel** (connecté à votre compte Claude) : ne le partagez pas.
+- Le Codespace est **personnel** (connecté au compte Claude qui vous a été fourni) : ne le partagez pas.
 
 <a id="voie-b"></a>
 
